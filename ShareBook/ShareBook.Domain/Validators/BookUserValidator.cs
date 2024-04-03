@@ -1,15 +1,16 @@
 ﻿using FluentValidation;
-using ShareBook.Domain.Enums;
 
 namespace ShareBook.Domain.Validators
 {
     public class BookUserValidator : AbstractValidator<BookUser>
     {
         #region Messages
+
         public const string Book = "Livro é obrigatório";
         public const string Requester = "Solicitante do livro é obrigatório";
         public const string RequesterReason = "Justificativa do solicitante é obrigatória";
-        #endregion
+
+        #endregion Messages
 
         public BookUserValidator()
         {
@@ -24,7 +25,6 @@ namespace ShareBook.Domain.Validators
             RuleFor(b => b.Reason)
                 .NotEmpty()
                 .WithMessage(RequesterReason);
-
         }
     }
 }

@@ -35,7 +35,8 @@ namespace ShareBook.Api.Controllers
     {
         protected readonly IBaseService<T> _service;
         private Expression<Func<T, object>> _defaultOrder = x => x.Id;
-        protected bool HasRequestViewModel { get { return typeof(R) != typeof(T); } }
+        protected bool HasRequestViewModel
+        { get { return typeof(R) != typeof(T); } }
 
         public BaseController(IBaseService<T> service)
         {

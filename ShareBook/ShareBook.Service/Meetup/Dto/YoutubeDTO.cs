@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShareBook.Service.Dto
 {
@@ -11,6 +8,7 @@ namespace ShareBook.Service.Dto
         public string Message { get; set; }
         public List<Item> Items { get; set; }
     }
+
     public class PageInfo
     {
         public int TotalResults { get; set; }

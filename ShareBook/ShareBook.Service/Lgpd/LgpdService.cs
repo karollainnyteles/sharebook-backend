@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ShareBook.Service.Lgpd
 {
-    public class LgpdService: ILgpdService
+    public class LgpdService : ILgpdService
     {
         private readonly IUserService _userService;
         private readonly IUserEmailService _userEmailService;
@@ -18,7 +18,7 @@ namespace ShareBook.Service.Lgpd
         public LgpdService(
             IUserService userService,
             IUserEmailService userEmailService,
-            IBookUserService bookUserService, 
+            IBookUserService bookUserService,
             ApplicationDbContext context)
         {
             _userService = userService;
@@ -65,7 +65,6 @@ namespace ShareBook.Service.Lgpd
 
             // 6 - Enfim salva
             _ctx.SaveChanges();
-
         }
 
         private void RemoveOpenRequests(User user)
@@ -110,6 +109,5 @@ namespace ShareBook.Service.Lgpd
             var logsAddress = _ctx.LogEntries.Where(log => log.EntityName == "Address" && log.EntityId == user.Address.Id).ToArray();
             _ctx.LogEntries.RemoveRange(logsAddress);
         }
-
     }
 }

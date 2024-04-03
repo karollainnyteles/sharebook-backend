@@ -1,11 +1,14 @@
 ﻿using FluentValidation;
 
-namespace ShareBook.Domain.Validators {
-    public class AccessHistoryValidator : AbstractValidator<AccessHistory> {
+namespace ShareBook.Domain.Validators
+{
+    public class AccessHistoryValidator : AbstractValidator<AccessHistory>
+    {
         private const string nameRequired = "O nome é obrigatório";
         private const string nameMaxLength = "Nome deve ter no máximo 100 caracteres";
 
-        public AccessHistoryValidator() {
+        public AccessHistoryValidator()
+        {
             RuleFor(a => a.VisitorName)
                 .NotEmpty()
                 .WithMessage(nameRequired)

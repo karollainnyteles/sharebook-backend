@@ -7,13 +7,12 @@ namespace ShareBook.Repository
 {
     public class ShareBookSeeder
     {
-
         private readonly ApplicationDbContext _context;
 
         // 123456
         private const string PASSWORD_HASH = "n71pJuPLLg4EJkRBf+SRDXHD3x5f1sNI+3Fi5bSjdx4=";
-        private const string PASSWORD_SALT = "Uo5G5EKyKh5GnXy0D57i0w==";
 
+        private const string PASSWORD_SALT = "Uo5G5EKyKh5GnXy0D57i0w==";
 
         public ShareBookSeeder(ApplicationDbContext context)
         {
@@ -23,8 +22,6 @@ namespace ShareBook.Repository
         public void Seed()
         {
             _context.Database.EnsureCreated();
-
-
 
             if (!(_context.Users.Any()
                 && _context.Books.Any()
@@ -166,7 +163,6 @@ namespace ShareBook.Repository
                     UserFacilitator = facilitator
                 };
 
-
                 var book2 = new Book()
                 {
                     Author = "Robert Aley",
@@ -286,7 +282,6 @@ namespace ShareBook.Repository
                     ChooseDate = DateTime.Now.AddDays(5),
                     UserFacilitator = facilitator
                 };
-
 
                 var book10 = new Book()
                 {
@@ -468,7 +463,6 @@ namespace ShareBook.Repository
                     UserFacilitator = facilitator
                 };
 
-
                 var book23 = new Book()
                 {
                     Author = "George R. R. Martin",
@@ -498,7 +492,6 @@ namespace ShareBook.Repository
                     ChooseDate = DateTime.Now.AddDays(5),
                     UserFacilitator = facilitator
                 };
-
 
                 var request = new BookUser()
                 {
@@ -608,8 +601,6 @@ namespace ShareBook.Repository
 
                 _context.SaveChanges();
             }
-
         }
-
     }
 }

@@ -21,10 +21,9 @@ namespace ShareBook.Api.Controllers
     [EnableCors("AllowAllHeaders")]
     public class OperationsController : Controller
     {
-
         protected IJobExecutor _executor;
         protected string _validToken;
-        IEmailService _emailService;
+        private IEmailService _emailService;
         private readonly IWebHostEnvironment _env;
         private readonly IConfiguration _configuration;
         private IMemoryCache _cache;

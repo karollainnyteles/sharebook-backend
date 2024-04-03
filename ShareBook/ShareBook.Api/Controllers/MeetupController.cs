@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using ShareBook.Domain;
 using ShareBook.Domain.Common;
 using ShareBook.Service;
@@ -14,12 +13,13 @@ namespace ShareBook.Api.Controllers
     public class MeetupController : ControllerBase
     {
         private readonly IMeetupService _meetupService;
+
         public MeetupController(IMeetupService meetupService)
         {
             _meetupService = meetupService;
         }
-        [HttpGet]
 
+        [HttpGet]
         public PagedList<Meetup> Get(int? page, int? pageSize, bool upcoming = false)
         {
             return _meetupService.Get(upcoming ? x => x.Active && x.StartDate > DateTime.Now : x => x.Active && x.StartDate <= DateTime.Now, x => x.StartDate, page ?? 1, pageSize ?? 10);
@@ -37,7 +37,7 @@ namespace ShareBook.Api.Controllers
         }
 
         [HttpGet("Search")]
-        public IList<Meetup> Search([FromQuery]string criteria)
+        public IList<Meetup> Search([FromQuery] string criteria)
         {
             return _meetupService.Search(criteria);
         }

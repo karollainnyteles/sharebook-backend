@@ -1,7 +1,6 @@
 ﻿using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ShareBook.Domain.Exceptions;
 using ShareBook.Service.AwsSqs.Dto;
@@ -41,7 +40,7 @@ public class GenericQueue<T> : IAwsSqsQueue<T>
             // _logger.LogInformation("Serviço aws sqs está desabilitado no appsettings.");
             return;
         }
-            
+
         var request = new SendMessageRequest
         {
             DelaySeconds = (int)TimeSpan.FromSeconds(5).TotalSeconds,
@@ -80,7 +79,6 @@ public class GenericQueue<T> : IAwsSqsQueue<T>
         }
     }
 
-
     public async Task DeleteMessage(string receiptHandle)
     {
         if (!_awsSqsSettings.IsActive)
@@ -95,9 +93,4 @@ public class GenericQueue<T> : IAwsSqsQueue<T>
 
         await _amazonSQSClient.DeleteMessageAsync(deleteMessageRequest);
     }
-
 }
-
-
-        
-

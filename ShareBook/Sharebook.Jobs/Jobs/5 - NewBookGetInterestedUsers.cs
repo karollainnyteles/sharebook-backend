@@ -8,7 +8,6 @@ using ShareBook.Service.AwsSqs;
 using ShareBook.Service.AwsSqs.Dto;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Sharebook.Jobs;
 
@@ -30,10 +29,9 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
         IEmailTemplate emailTemplate,
         IBookService bookService) : base(jobHistoryRepo)
     {
-
         JobName = "NewBookGetInterestedUsers";
-        Description = @"Temos um fluxo em que notificamos novos livros para possíveis interessados. Dentro desse 
-                        fluxo, essa peça tem a responsailidade de ler uma fila de LIVROS DOADOS, buscar possíveis 
+        Description = @"Temos um fluxo em que notificamos novos livros para possíveis interessados. Dentro desse
+                        fluxo, essa peça tem a responsailidade de ler uma fila de LIVROS DOADOS, buscar possíveis
                         interessados e alimentar a fila do MAIL SENDER (baixa prioridade).";
         Interval = Interval.Hourly;
         Active = true;
@@ -50,18 +48,18 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
     public override JobHistory Work()
     {
         var awsSqsEnabled = bool.Parse(_configuration["AwsSqsSettings:IsActive"]);
-        if(!awsSqsEnabled) throw new AwsSqsDisabledException("Serviço aws sqs está desabilitado no appsettings.");
-        
+        if (!awsSqsEnabled) throw new AwsSqsDisabledException("Serviço aws sqs está desabilitado no appsettings.");
+
         int totalDestinations = 0;
         int sendEmailMaxDestinationsPerQueueMessage = GetEmailMaxDestinationsPerQueueMessage();
-        
+
         // 1 - lê a fila de origem
         var newBookMessage = _newBookQueue.GetMessage()?.Result;
 
         // fila vazia, não faz nada
         if (newBookMessage == null)
         {
-            return new JobHistory() 
+            return new JobHistory()
             {
                 JobName = JobName,
                 IsSuccess = true,
@@ -78,16 +76,17 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
         // Alimenta a fila de destino - baixa prioridade do Mail Sender
         int maxMessages = interestedUsers.Count % sendEmailMaxDestinationsPerQueueMessage == 0 ? interestedUsers.Count / sendEmailMaxDestinationsPerQueueMessage : interestedUsers.Count / sendEmailMaxDestinationsPerQueueMessage + 1;
 
-        for(int i = 1; i <= maxMessages; i++)
+        for (int i = 1; i <= maxMessages; i++)
         {
             var destinations = interestedUsers.Skip((i - 1) * sendEmailMaxDestinationsPerQueueMessage).Take(sendEmailMaxDestinationsPerQueueMessage).Select(u => new Destination { Name = u.Name, Email = u.Email });
 
-            var mailSenderbody = new MailSenderbody {
+            var mailSenderbody = new MailSenderbody
+            {
                 Subject = $"Chegou o livro '{newBook.BookTitle}'",
                 BodyHTML = template,
                 Destinations = destinations.ToList()
             };
-            
+
             _mailSenderLowPriorityQueue.SendMessage(mailSenderbody).Wait();
         }
 
@@ -95,7 +94,7 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
         _newBookQueue.DeleteMessage(newBookMessage.ReceiptHandle).Wait();
 
         // finaliza com sucesso
-        return new JobHistory() 
+        return new JobHistory()
         {
             JobName = JobName,
             IsSuccess = true,
@@ -110,16 +109,17 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
 
         // Queremos que o MailSender processe 3 mensagens sqs pra fazer seu trabalho
         var totalSqsMessagensPerWork = 3;
-        
+
         var maxEmailsPerHour = int.Parse(_configuration["EmailSettings:MaxEmailsPerHour"]);
         return (maxEmailsPerHour / mailSenderInvocationsPerHour) / totalSqsMessagensPerWork;
 
-        // 
+        //
     }
 
-    private string GetEmailTemplate(Guid bookId){
+    private string GetEmailTemplate(Guid bookId)
+    {
         var book = _bookService.Find(bookId);
-        
+
         var vm = new
         {
             BookTitle = book.Title,
@@ -132,4 +132,3 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
         return _emailTemplate.GenerateHtmlFromTemplateAsync("NewBookNotifyTemplate", vm).Result;
     }
 }
-

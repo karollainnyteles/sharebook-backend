@@ -8,7 +8,6 @@ namespace ShareBook.Repository.Mapping
     {
         public BookUserMap(EntityTypeBuilder<BookUser> entityBuilder)
         {
-
             entityBuilder
              .HasKey(bu => new { bu.Id, bu.BookId, bu.UserId });
 

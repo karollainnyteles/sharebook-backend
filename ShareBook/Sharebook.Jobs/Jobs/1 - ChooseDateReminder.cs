@@ -16,7 +16,7 @@ namespace Sharebook.Jobs
         public ChooseDateReminder(
             IJobHistoryRepository jobHistoryRepo,
             IBookService bookService,
-            IEmailService emailService, 
+            IEmailService emailService,
             IEmailTemplate emailTemplate
             ) : base(jobHistoryRepo)
         {
@@ -61,7 +61,6 @@ namespace Sharebook.Jobs
             };
         }
 
-
         #region métodos privados de apoio
 
         private void SendEmail(Book book)
@@ -82,9 +81,6 @@ namespace Sharebook.Jobs
             _emailService.Send(book.User.Email, book.User.Name, emailBodyHTML, emailSubject, copyAdmins: false, highPriority: true);
         }
 
-        #endregion
-
-
-
+        #endregion métodos privados de apoio
     }
 }

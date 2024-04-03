@@ -1,8 +1,8 @@
-﻿using System.IO;
-using SixLabors.ImageSharp.Processing;
+﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
-using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using System;
+using System.IO;
 
 namespace ShareBook.Helper.Image
 {
@@ -19,7 +19,7 @@ namespace ShareBook.Helper.Image
         {
             return serverUrl + directory.Replace("wwwroot", "") + "/" + imageName;
         }
-        
+
         /// <summary>
         /// Scale an image by a scale factor
         /// </summary>
@@ -42,7 +42,7 @@ namespace ShareBook.Helper.Image
             image.Mutate(x => x.Resize(width, height));
 
             var memoryStream = new MemoryStream();
-            
+
             image.Save(memoryStream, imageFormat);
 
             return memoryStream.ToArray();

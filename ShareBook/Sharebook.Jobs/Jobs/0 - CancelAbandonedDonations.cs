@@ -18,10 +18,10 @@ namespace Sharebook.Jobs
 
         public CancelAbandonedDonations(IJobHistoryRepository jobHistoryRepo, IBookService bookService, IBookUserService bookUserService, IConfiguration configuration) : base(jobHistoryRepo)
         {
-            JobName     = "CancelAbandonedDonations";
+            JobName = "CancelAbandonedDonations";
             Description = "Cancela as doações abandonadas.";
-            Interval    = Interval.Dayly;
-            Active      = true;
+            Interval = Interval.Dayly;
+            Active = true;
             BestTimeToExecute = new TimeSpan(6, 0, 0);
 
             _bookService = bookService;
@@ -39,8 +39,8 @@ namespace Sharebook.Jobs
             var booksAbandoned = booksLate.Where(b => b.ChooseDate < refDate).ToList();
 
             var details = $"Encontradas {booksAbandoned.Count} doações abandonadas com mais de {_maxLateDonationDaysAutoCancel} dias de atraso.\n\n";
-            
-            foreach(var book in booksAbandoned)
+
+            foreach (var book in booksAbandoned)
             {
                 var dto = new BookCancelationDTO
                 {
@@ -52,7 +52,7 @@ namespace Sharebook.Jobs
                 _bookUserService.Cancel(dto);
                 details += $"Doação do livro {book.Title} foi cancelada.\n";
             }
-            
+
             return new JobHistory()
             {
                 JobName = JobName,
@@ -60,6 +60,5 @@ namespace Sharebook.Jobs
                 Details = details
             };
         }
-
     }
 }

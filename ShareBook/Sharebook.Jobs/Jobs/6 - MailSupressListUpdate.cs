@@ -1,11 +1,8 @@
-﻿using MailKit;
-using ShareBook.Domain;
+﻿using ShareBook.Domain;
 using ShareBook.Domain.Enums;
 using ShareBook.Repository;
 using ShareBook.Service;
-using ShareBook.Service.AwsSqs;
 using System;
-using System.Collections.Generic;
 
 namespace Sharebook.Jobs;
 
@@ -17,9 +14,8 @@ public class MailSupressListUpdate : GenericJob, IJob
         IJobHistoryRepository jobHistoryRepo,
         IEmailService emailService) : base(jobHistoryRepo)
     {
-
         JobName = "MailSupressListUpdate";
-        Description = @"Atualiza a lista de emails suprimidos. Essa lista serve para manter boa reputação do nosso 
+        Description = @"Atualiza a lista de emails suprimidos. Essa lista serve para manter boa reputação do nosso
                         mailling. Além de ser um requisito da AWS.";
         Interval = Interval.Dayly;
         Active = true;
@@ -30,7 +26,7 @@ public class MailSupressListUpdate : GenericJob, IJob
 
     public override JobHistory Work()
     {
-        var log  = _emailService.ProcessBounceMessages().Result;
+        var log = _emailService.ProcessBounceMessages().Result;
 
         return new JobHistory()
         {
@@ -40,5 +36,3 @@ public class MailSupressListUpdate : GenericJob, IJob
         };
     }
 }
-
-

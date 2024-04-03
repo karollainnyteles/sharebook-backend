@@ -1,5 +1,4 @@
 ﻿using ShareBook.Domain.Enums;
-using System;
 using System.Collections.Generic;
 
 namespace ShareBook.Domain
@@ -14,7 +13,4 @@ namespace ShareBook.Domain
         public string Key { get; set; }
         public string Value { get; set; }
     }
-
-
-    
 }

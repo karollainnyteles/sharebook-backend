@@ -1,5 +1,4 @@
-﻿
-namespace ShareBook.Domain.DTOs
+﻿namespace ShareBook.Domain.DTOs
 {
     public class RegisterUserDTO
     {
@@ -24,7 +23,7 @@ namespace ShareBook.Domain.DTOs
         public string Country { get; set; }
 
         public string Linkedin { get; set; }
-        
+
         public string Instagram { get; set; }
 
         public string Phone { get; set; }

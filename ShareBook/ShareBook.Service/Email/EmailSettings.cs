@@ -1,6 +1,6 @@
 ﻿namespace ShareBook.Service
 {
-   public class EmailSettings
+    public class EmailSettings
     {
         public string HostName { get; set; }
         public string Username { get; set; }

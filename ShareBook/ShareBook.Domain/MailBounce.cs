@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace ShareBook.Domain;
 
-public class MailBounce: BaseEntity
+public class MailBounce : BaseEntity
 {
     public string? Email { get; set; }
     public string? Subject { get; set; }
@@ -23,26 +23,23 @@ public class MailBounce: BaseEntity
     private void ExtractFromBody()
     {
         if (string.IsNullOrEmpty(Body)) return;
-        
+
         // tenta extrair o email de destino original do corpo do email
-        string pattern = @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
-        Match match = Regex.Match(Body, pattern);
+        var pattern = @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+        var match = Regex.Match(Body, pattern);
         Email = match.Success ? match.Value : "";
 
         // Check if email body contains an error code
         var errorCodeMatch = Regex.Match(Body, @"Remote Server returned: '(\d{3})");
 
-        if (errorCodeMatch.Success)
-        {
-            IsBounce = true;
-            ErrorCode = errorCodeMatch.Groups.Count == 2 ? errorCodeMatch.Groups[1].Value : "";
+        if (!errorCodeMatch.Success) return;
+        IsBounce = true;
+        ErrorCode = errorCodeMatch.Groups.Count == 2 ? errorCodeMatch.Groups[1].Value : "";
 
-            if (ErrorCode.StartsWith("4"))
-            {
-                // Soft bounce
-                IsSoft = true;
-            }
+        if (ErrorCode.StartsWith("4"))
+        {
+            // Soft bounce
+            IsSoft = true;
         }
     }
-
 }

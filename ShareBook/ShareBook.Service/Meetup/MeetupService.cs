@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Flurl;
 using Flurl.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ShareBook.Domain;
 using ShareBook.Domain.Exceptions;
@@ -154,6 +153,7 @@ namespace ShareBook.Service
 
             return eventsAdded;
         }
+
         private async Task<IList<MeetupParticipant>> GetMeetupParticipants(int eventId)
         {
             IList<MeetupParticipant> participants = new List<MeetupParticipant>();
@@ -179,9 +179,9 @@ namespace ShareBook.Service
                         Email = participant.Email,
                     });
                 }
-                
+
                 hasNext = participantDto.Pagination.HasNext;
-                if (hasNext) page++;                
+                if (hasNext) page++;
             }
             return participants;
         }
@@ -216,7 +216,7 @@ namespace ShareBook.Service
         public IList<Meetup> Search(string criteria)
         {
             return _repository.Get()
-                .Where(m => m.Active && ( m.Title.ToUpper().Contains(criteria.ToUpper()) || m.Description.ToUpper().Contains(criteria.ToUpper())))
+                .Where(m => m.Active && (m.Title.ToUpper().Contains(criteria.ToUpper()) || m.Description.ToUpper().Contains(criteria.ToUpper())))
                 .OrderByDescending(m => m.CreationDate)
                 .ToList();
         }

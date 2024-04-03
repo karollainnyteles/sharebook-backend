@@ -31,9 +31,10 @@ namespace ShareBook.Repository
         {
             var result = await _dbSet.FindAsync(keyValues);
 
-            if (includes != null)
-                foreach (var item in includes)
-                    await _context.Entry(result).Reference(item).LoadAsync();
+            if (includes == null || includes.Count == 0) return result;
+
+            foreach (var item in includes)
+                await _context.Entry(result!).Reference(item).LoadAsync();
 
             return result;
         }

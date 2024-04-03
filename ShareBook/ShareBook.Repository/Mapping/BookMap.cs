@@ -54,7 +54,6 @@ namespace ShareBook.Repository.Mapping
             entityBuilder.HasOne(t => t.UserFacilitator);
 
             entityBuilder.HasOne(t => t.Category);
-                
         }
     }
 }

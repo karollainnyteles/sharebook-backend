@@ -16,6 +16,5 @@ namespace ShareBook.Api.ViewModels.CustomValidators
 
             return model.Length > Minimum && model.Length <= Maximum;
         }
-
     }
 }

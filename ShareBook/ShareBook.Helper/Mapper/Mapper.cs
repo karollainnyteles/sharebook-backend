@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using System;
-
-namespace ShareBook.Helper.Mapper
+﻿namespace ShareBook.Helper.Mapper
 {
     public static class Mapper
     {

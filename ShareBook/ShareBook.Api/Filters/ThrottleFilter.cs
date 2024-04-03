@@ -18,7 +18,7 @@ namespace ShareBook.Api.Filters
 
         public override void OnActionExecuting(ActionExecutingContext c)
         {
-            var key = VaryByIp 
+            var key = VaryByIp
             ? string.Concat(Name, "-", c.HttpContext.Request.HttpContext.Connection.RemoteIpAddress)
             : Name;
 

@@ -1,5 +1,5 @@
-﻿using ShareBook.Service.Generic;
-using ShareBook.Domain;
+﻿using ShareBook.Domain;
+using ShareBook.Service.Generic;
 
 namespace ShareBook.Service
 {

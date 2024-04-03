@@ -13,7 +13,9 @@ namespace ShareBook.Api.Controllers
     public class BaseCrudController<T> : BaseCrudController<T, T, T>
         where T : BaseEntity
     {
-        public BaseCrudController(IBaseService<T> service, IMapper mapper) : base(service, mapper) { }
+        public BaseCrudController(IBaseService<T> service, IMapper mapper) : base(service, mapper)
+        {
+        }
     }
 
     public class BaseCrudController<T, R> : BaseDeleteController<T, R, T>
@@ -61,7 +63,7 @@ namespace ShareBook.Api.Controllers
 
             if (!HasRequestViewModel)
                 return _mapper.Map<Result<A>>(_service.Update(viewModel as T));
-            
+
             var entity = _mapper.Map<T>(viewModel);
             var result = _service.Update(entity);
             var resultVM = _mapper.Map<A>(result);

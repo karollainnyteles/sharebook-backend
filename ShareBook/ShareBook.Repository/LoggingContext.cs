@@ -69,7 +69,6 @@ namespace ShareBook.Repository
 
                     context.LogEntries.Add(logEntry);
                 }
-                
             }
         }
     }

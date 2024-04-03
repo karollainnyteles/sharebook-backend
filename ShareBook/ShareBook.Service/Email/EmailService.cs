@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using Rollbar.DTOs;
 using ShareBook.Domain;
+using ShareBook.Domain.Enums;
 using ShareBook.Repository;
 using ShareBook.Service.AwsSqs;
 using ShareBook.Service.AwsSqs.Dto;
@@ -46,7 +46,7 @@ public class EmailService : IEmailService
 
     public async Task SendToAdmins(string messageText, string subject)
     {
-        var firstAdm = _userRepository.Get().Where(u => u.Profile == Domain.Enums.Profile.Administrator).FirstOrDefault();
+        var firstAdm = _userRepository.Get().FirstOrDefault(u => u.Profile == Profile.Administrator);
         await Send(firstAdm.Email, firstAdm.Name, messageText, subject, copyAdmins: true, highPriority: true);
     }
 
@@ -63,7 +63,8 @@ public class EmailService : IEmailService
             return;
         }
 
-        var queueMessage = new MailSenderbody{
+        var queueMessage = new MailSenderbody
+        {
             CopyAdmins = copyAdmins,
             Subject = subject,
             BodyHTML = messageText,
@@ -81,7 +82,6 @@ public class EmailService : IEmailService
             await _mailSenderHighPriorityQueue.SendMessage(queueMessage);
         else
             await _mailSenderLowPriorityQueue.SendMessage(queueMessage);
-
     }
 
     public async Task SendSmtp(string emailRecipient, string nameRecipient, string messageText, string subject, bool copyAdmins)
@@ -89,7 +89,7 @@ public class EmailService : IEmailService
         var message = FormatEmail(emailRecipient, nameRecipient, messageText, subject, copyAdmins);
 
         var client = new SmtpClient();
-        
+
         if (_settings.UseSSL)
             client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
@@ -97,7 +97,7 @@ public class EmailService : IEmailService
         client.Connect(_settings.HostName, _settings.Port, _settings.UseSSL);
         client.Authenticate(_settings.Username, _settings.Password);
         await client.SendAsync(message);
-        client.Disconnect(true); 
+        client.Disconnect(true);
     }
 
     private MimeMessage FormatEmail(string emailRecipient, string nameRecipient, string messageText, string subject, bool copyAdmins)
@@ -123,7 +123,8 @@ public class EmailService : IEmailService
     private InternetAddressList FormatEmailGetAdminEmails()
     {
         var admins = _userRepository.Get()
-            .Select(u => new User {
+            .Select(u => new User
+            {
                 Email = u.Email,
                 Profile = u.Profile
             }
@@ -151,7 +152,7 @@ public class EmailService : IEmailService
     {
         var log = new List<string>();
 
-        if(string.IsNullOrEmpty(_settings.BounceFolder))
+        if (string.IsNullOrEmpty(_settings.BounceFolder))
         {
             log.Add("Não foi possível processar os emails bounce porque o 'BounceFolder' não está configurado.");
             return log;
@@ -181,7 +182,6 @@ public class EmailService : IEmailService
             {
                 log.Add($"Não vou processar porque NÃO É um email bounce:  subject: {message.Subject}");
             }
-   
         }
 
         _ctx.SaveChanges();

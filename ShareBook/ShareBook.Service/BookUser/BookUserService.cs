@@ -88,7 +88,6 @@ namespace ShareBook.Service
 
             _bookUsersEmailService.SendEmailBookDonor(bookUser, bookRequested).Wait();
             _bookUsersEmailService.SendEmailBookInterested(bookUser, bookRequested).Wait();
-            
         }
 
         private void MaxRequestsValidation(Book bookRequested)
@@ -110,14 +109,14 @@ namespace ShareBook.Service
             if (!book.MayChooseWinner())
                 throw new ShareBookException(ShareBookException.Error.BadRequest, "Aguarde a data de decisão.");
 
-            var bookUserAccepted = _bookUserRepository.Get()
-                .Include(u => u.Book).ThenInclude(b => b.UserFacilitator)
-                .Include(u => u.Book).ThenInclude(b => b.User)
-                .Include(u => u.User).ThenInclude(u => u.Address)
-                .Where(x => x.UserId == userId
-                    && x.BookId == bookId
-                    && x.Status == DonationStatus.WaitingAction)
-                    .FirstOrDefault();
+            var bookUserAccepted = _bookUserRepository
+                .Get().Include(u => u.Book)
+                .ThenInclude(b => b.UserFacilitator).Include(u => u.Book)
+                .ThenInclude(b => b.User).Include(u => u.User)
+                .ThenInclude(u => u.Address)
+                .FirstOrDefault(x => x.UserId == userId
+                                     && x.BookId == bookId
+                                     && x.Status == DonationStatus.WaitingAction);
 
             if (bookUserAccepted == null)
                 throw new ShareBookException("Não existe a relação de usuário e livro para a doação.");
@@ -211,7 +210,7 @@ namespace ShareBook.Service
                                                 .Where(x => x.BookId == bookId).ToList();
 
             //obter apenas o ganhador
-            var winnerBookUser = bookUsers.Where(bu => bu.Status == DonationStatus.Donated).FirstOrDefault();
+            var winnerBookUser = bookUsers.FirstOrDefault(bu => bu.Status == DonationStatus.Donated);
 
             //Book
             var book = winnerBookUser.Book;
@@ -221,20 +220,15 @@ namespace ShareBook.Service
 
             //enviar e-mails
             await this._bookUsersEmailService.SendEmailDonationDeclined(book, winnerBookUser, losersBookUser);
-
         }
 
         public void NotifyUsersBookCanceled(Book book)
         {
-
-
             List<BookUser> bookUsers = _bookUserRepository.Get()
                                             .Include(u => u.User)
                                             .Where(x => x.BookId == book.Id).ToList();
 
-
             this._bookUsersEmailService.SendEmailDonationCanceled(book, bookUsers).Wait();
-
         }
 
         public void InformTrackingNumber(Guid bookId, string trackingNumber)
@@ -244,10 +238,9 @@ namespace ShareBook.Service
                                       .Include(f => f.UserFacilitator)
                                       .FirstOrDefault(id => id.Id == bookId);
             var winnerBookUser = _bookUserRepository
-                                        .Get()
-                                        .Include(u => u.User)
-                                        .Where(bu => bu.BookId == bookId && bu.Status == DonationStatus.Donated)
-                                        .FirstOrDefault();
+                .Get()
+                .Include(u => u.User)
+                .FirstOrDefault(bu => bu.BookId == bookId && bu.Status == DonationStatus.Donated);
 
             if (winnerBookUser == null)
                 throw new ShareBookException("Vencedor ainda não foi escolhido");
@@ -260,9 +253,10 @@ namespace ShareBook.Service
             _bookService.Update(book);
 
             if (winnerBookUser.User.AllowSendingEmail)
-                //Envia e-mail para avisar o ganhador do tracking number                          
+                //Envia e-mail para avisar o ganhador do tracking number
                 _bookUsersEmailService.SendEmailTrackingNumberInformed(winnerBookUser, book).Wait();
         }
+
         /// <summary>
         /// Cancel a request for a book if it's still awaiting for donor decision and not already canceled.
         /// </summary>
@@ -281,11 +275,10 @@ namespace ShareBook.Service
 
             return false;
         }
+
         public BookUser GetRequest(Guid requestId)
         {
             return _bookUserRepository.Find(new IncludeList<BookUser>(x => x.Book), x => x.Id == requestId);
         }
-
-
     }
 }

@@ -22,8 +22,14 @@ namespace ShareBook.Domain.Exceptions
 
         public Error ErrorType { get; set; }
 
-        public ShareBookException(string message) : this(Error.BadRequest, message) { }
-        public ShareBookException(Error error) : this(error, ErrorMessages[error]) { }
+        public ShareBookException(string message) : this(Error.BadRequest, message)
+        {
+        }
+
+        public ShareBookException(Error error) : this(error, ErrorMessages[error])
+        {
+        }
+
         public ShareBookException(Error error, string message) : base(message)
         {
             ErrorType = error;

@@ -1,31 +1,32 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using ShareBook.Domain;
+using ShareBook.Domain.Common;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using ShareBook.Domain;
-using ShareBook.Domain.Common;
 
 namespace ShareBook.Repository
 {
     public class BookRepository : RepositoryGeneric<Book>, IBookRepository
     {
-        public BookRepository(ApplicationDbContext context) : base(context) { }
+        public BookRepository(ApplicationDbContext context) : base(context)
+        {
+        }
 
         public override async Task<Book> UpdateAsync(Book entity)
         {
-         
             _context.Update(entity);
 
             //imagem eh opcional no update
             if (entity.ImageSlug == null)
                 _context.Entry(entity).Property(x => x.ImageSlug).IsModified = false;
 
-            if(entity.Slug == null)
+            if (entity.Slug == null)
                 _context.Entry(entity).Property(x => x.Slug).IsModified = false;
 
             _context.Entry(entity).Property(x => x.UserId).IsModified = false;
-     
+
             await _context.SaveChangesAsync();
 
             return entity;

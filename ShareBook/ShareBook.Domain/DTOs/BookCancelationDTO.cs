@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShareBook.Domain.DTOs
+﻿namespace ShareBook.Domain.DTOs
 {
     public class BookCancelationDTO
     {

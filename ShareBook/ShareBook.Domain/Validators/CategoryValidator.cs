@@ -4,11 +4,11 @@ namespace ShareBook.Domain.Validators
 {
     public class CategoryValidator : AbstractValidator<Category>
     {
-
         #region Messages
-        public const string Name = "O nome da categoria é obrigatório";
-        #endregion
 
+        public const string Name = "O nome da categoria é obrigatório";
+
+        #endregion Messages
 
         public CategoryValidator()
         {

@@ -1,5 +1,4 @@
 ﻿using ShareBook.Domain;
-using ShareBook.Service.AwsSqs;
 using System.Threading.Tasks;
 
 namespace ShareBook.Service
@@ -15,23 +14,25 @@ namespace ShareBook.Service
 
         private readonly IEmailTemplate _emailTemplate;
 
-
         public ContactUsEmailService(IEmailService emailService, IEmailTemplate emailTemplate)
         {
             _emailService = emailService;
             _emailTemplate = emailTemplate;
         }
+
         public async Task SendEmailContactUs(ContactUs contactUs)
         {
             await SendEmailContactUsToAdministrator(contactUs);
 
             await SendEmailNotificationToUser(contactUs);
         }
+
         private async Task SendEmailContactUsToAdministrator(ContactUs contactUs)
         {
             var html = await _emailTemplate.GenerateHtmlFromTemplateAsync(ContactUsTemplate, contactUs);
             await _emailService.SendToAdmins(html, ContactUsTitle);
         }
+
         private async Task SendEmailNotificationToUser(ContactUs contactUs)
         {
             var html = await _emailTemplate.GenerateHtmlFromTemplateAsync(ContactUsNotificationTemplate, contactUs);

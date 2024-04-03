@@ -4,7 +4,6 @@ using ShareBook.Domain.DTOs;
 using ShareBook.Domain.Enums;
 using ShareBook.Repository;
 using ShareBook.Service;
-using ShareBook.Service.AwsSqs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,17 +19,16 @@ public class LateDonationNotification : GenericJob, IJob
     private readonly int maxLateDonationDays;
     private readonly IConfiguration _configuration;
 
-
     public LateDonationNotification(IJobHistoryRepository jobHistoryRepo,
         IBookService bookService,
         IEmailService emailService,
         IEmailTemplate emailTemplate, IConfiguration configuration) : base(jobHistoryRepo)
     {
-        JobName     = "LateDonationNotification";
+        JobName = "LateDonationNotification";
         Description = "Notifica o facilitador e doador com lista de doações em atraso " +
                         "ordenado pelo mais atrasado.";
-        Interval    = Interval.Dayly;
-        Active      = true;
+        Interval = Interval.Dayly;
+        Active = true;
         BestTimeToExecute = new TimeSpan(10, 0, 0);
 
         _bookService = bookService;
@@ -39,7 +37,6 @@ public class LateDonationNotification : GenericJob, IJob
 
         _configuration = configuration;
         maxLateDonationDays = int.Parse(_configuration["SharebookSettings:MaxLateDonationDays"]);
-
     }
 
     public override JobHistory Work()
@@ -49,7 +46,8 @@ public class LateDonationNotification : GenericJob, IJob
         var donators = GetDistinctDonators(booksLate);
 
         var details = $"Encontradas {booksLate.Count} doações em atraso de {donators.Count} doadores distintos.";
-        if (booksLate.Count > 0){
+        if (booksLate.Count > 0)
+        {
             SendEmailAdmin(booksLate, status);
             SendEmailDonators(donators, ref details);
         }
@@ -61,8 +59,6 @@ public class LateDonationNotification : GenericJob, IJob
             Details = details
         };
     }
-
-
 
     #region métodos privados de apoio
 
@@ -81,10 +77,10 @@ public class LateDonationNotification : GenericJob, IJob
 
             var whatsappLink = GetWhatsappLink(book.User.Phone);
 
-            htmlTable += string.Format("<TR><TD>{0}<BR>{1}</TD><TD>{2}</TD><TD>{3}</TD><TD>{4}<BR>{5}<BR>{6}<BR>{7}</TD><TD>{8}<BR>{9}<BR>{10}<BR>{11}</TD><TD>{12}</TD></TR>", 
-                book.Title, 
-                book.Status, 
-                book.DaysLate(), 
+            htmlTable += string.Format("<TR><TD>{0}<BR>{1}</TD><TD>{2}</TD><TD>{3}</TD><TD>{4}<BR>{5}<BR>{6}<BR>{7}</TD><TD>{8}<BR>{9}<BR>{10}<BR>{11}</TD><TD>{12}</TD></TR>",
+                book.Title,
+                book.Status,
+                book.DaysLate(),
                 book.TotalInterested(),
                 book.User.Name, book.User.Email, whatsappLink, book.User.Linkedin,
                 book.UserFacilitator.Name, book.UserFacilitator.Email, book.UserFacilitator.Phone, book.UserFacilitator.Linkedin,
@@ -95,8 +91,9 @@ public class LateDonationNotification : GenericJob, IJob
 
         var emailSubject = "SHAREBOOK - STATUS DO DIA.";
 
-        var vm = new { 
-            htmlTable, 
+        var vm = new
+        {
+            htmlTable,
             totalWaitingApproval = status.TotalWaitingApproval,
             totalLate = booksLate.Count,
             totalOk = status.TotalOk
@@ -130,7 +127,7 @@ public class LateDonationNotification : GenericJob, IJob
                 SendEmailDonatorHard(donator);
             else
                 SendEmailDonatorSoft(donator);
-                
+
             details += "E-mail enviado para o usuário: " + donator.Name;
         }
     }
@@ -141,7 +138,7 @@ public class LateDonationNotification : GenericJob, IJob
         html += "<p>Essa é uma situação grave porque temos muitos usuários aguardando sua decisão. Pessoas humildes que desejam e precisam do livro que vc se propôs a doar em nosso app.</p>";
         html += "<p>Para sua conveniência use esse link para <strong>concluir</strong> ou <strong>cancelar</strong>: <a href='https://www.sharebook.com.br/book/donations' target='_blank'>Minhas doações</a></p>";
         html += "<p>Esse é nosso último aviso. Caso não responda, vamos considerar que a doação foi abandonada e sua conta será bloqueada em nosso sistema.</p>";
-            
+
         html += "<p>Conto com sua compreensão e colaboração.</p>";
         html += "<p>Sinceramente,</p>";
         html += "<p>Sharebook</p>";
@@ -164,5 +161,5 @@ public class LateDonationNotification : GenericJob, IJob
         _emailService.Send(donator.Email, donator.Name, html, emailSubject, copyAdmins: false, highPriority: true).Wait();
     }
 
-    #endregion
+    #endregion métodos privados de apoio
 }

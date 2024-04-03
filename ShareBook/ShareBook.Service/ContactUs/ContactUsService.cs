@@ -7,18 +7,19 @@ namespace ShareBook.Service
 {
     public class ContactUsService : IContactUsService
     {
-        IContactUsEmailService _contactUsEmailService;
-        IValidator<ContactUs> _validator;
-        IRecaptchaService _recaptchaService;
+        private IContactUsEmailService _contactUsEmailService;
+        private IValidator<ContactUs> _validator;
+        private IRecaptchaService _recaptchaService;
+
         public ContactUsService(IContactUsEmailService contactUsEmailService, IValidator<ContactUs> validator, IRecaptchaService recaptchaService)
         {
             _contactUsEmailService = contactUsEmailService;
             _validator = validator;
             _recaptchaService = recaptchaService;
         }
+
         public Result<ContactUs> SendContactUs(ContactUs entity, string recaptchaReactive)
         {
-
             var result = new Result<ContactUs>(_validator.Validate(entity));
 
             Result resultRecaptcha = _recaptchaService.SimpleValidationRecaptcha(recaptchaReactive);

@@ -8,6 +8,7 @@ namespace ShareBook.Domain.Enums
     {
         [Description("Impresso")]
         Printed,
+
         [Description("Eletrônico")]
         Eletronic
     }

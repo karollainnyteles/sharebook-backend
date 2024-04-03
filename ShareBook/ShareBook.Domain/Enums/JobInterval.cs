@@ -1,5 +1,4 @@
-﻿using System;
-namespace ShareBook.Domain.Enums
+﻿namespace ShareBook.Domain.Enums
 {
     public enum Interval
     {

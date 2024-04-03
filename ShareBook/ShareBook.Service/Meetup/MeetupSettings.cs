@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace ShareBook.Service
+﻿namespace ShareBook.Service
 {
     public class MeetupSettings
     {

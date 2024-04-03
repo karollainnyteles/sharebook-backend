@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace ShareBook.Api.ViewModels
 {
     public class RequestBookVM

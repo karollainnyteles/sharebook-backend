@@ -1,10 +1,10 @@
-﻿using ShareBook.Repository;
-using ShareBook.Service;
-using ShareBook.Domain.Enums;
-using System;
+﻿using Microsoft.Extensions.Configuration;
 using ShareBook.Domain;
+using ShareBook.Domain.Enums;
 using ShareBook.Domain.Exceptions;
-using Microsoft.Extensions.Configuration;
+using ShareBook.Repository;
+using ShareBook.Service;
+using System;
 
 namespace Sharebook.Jobs
 {
@@ -12,6 +12,7 @@ namespace Sharebook.Jobs
     {
         private readonly IMeetupService _meetupService;
         private readonly IConfiguration _configuration;
+
         public MeetupSearch(IJobHistoryRepository jobHistoryRepo, IMeetupService meetupService, IConfiguration configuration) : base(jobHistoryRepo)
         {
             _meetupService = meetupService;
@@ -27,8 +28,8 @@ namespace Sharebook.Jobs
         public override JobHistory Work()
         {
             var meetupEnabled = bool.Parse(_configuration["MeetupSettings:IsActive"]);
-            if(!meetupEnabled) throw new MeetupDisabledException("Serviço Meetup está desabilitado no appsettings.");
-            
+            if (!meetupEnabled) throw new MeetupDisabledException("Serviço Meetup está desabilitado no appsettings.");
+
             var jobResult = _meetupService.FetchMeetups().Result;
 
             return new JobHistory()

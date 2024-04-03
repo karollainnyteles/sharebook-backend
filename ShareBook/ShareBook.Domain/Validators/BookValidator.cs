@@ -6,6 +6,7 @@ namespace ShareBook.Domain.Validators
     public class BookValidator : AbstractValidator<Book>
     {
         #region Messages
+
         public const string Title = "Titulo do livro é obrigatório";
         public const string Author = "Autor do livro é obrigatório";
         public const string Image = "Imagem do livro é obrigatória";
@@ -13,7 +14,8 @@ namespace ShareBook.Domain.Validators
         public const string User = "O usuário deve ter vinculo com o livro";
         public const string FreightOption = "A opção de frete é obrigatória";
         public const string HasNotImageExtension = "A extensão da imagem não é válida. É preciso ser png, jpg ou jpeg.";
-        #endregion
+
+        #endregion Messages
 
         public BookValidator()
         {
@@ -46,15 +48,12 @@ namespace ShareBook.Domain.Validators
             RuleFor(b => b.CategoryId)
                .NotEmpty()
                .WithMessage(Categoria);
-
-                
         }
-
 
         private bool HasImageExtension(string image)
         {
-            return (!string.IsNullOrEmpty(image) && 
-                       (image.ToLower().EndsWith(".png") 
+            return (!string.IsNullOrEmpty(image) &&
+                       (image.ToLower().EndsWith(".png")
                        || image.ToLower().EndsWith(".jpg")
                        || image.ToLower().EndsWith(".jpeg"))
                    );
@@ -64,7 +63,5 @@ namespace ShareBook.Domain.Validators
         {
             return !string.IsNullOrEmpty(freightOption.ToString());
         }
-
-      
     }
 }

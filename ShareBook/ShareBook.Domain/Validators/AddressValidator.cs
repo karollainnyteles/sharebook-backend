@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using ShareBook.Domain.Validators.Helper;
 
 namespace ShareBook.Domain.Validators
 {
@@ -49,16 +50,8 @@ namespace ShareBook.Domain.Validators
                 .WithMessage("Rua deve ter no máximo 80 caracteres");
 
             RuleFor(x => x.Complement)
-                .Must(x => OptionalFieldIsValid(x, 0 , 50))
+                .Must(x => FieldsValidationHelper.OptionalFieldIsValid(x, 0, 50))
                 .WithMessage("Complemento deve ter no máximo 50 caracteres");
-        }
-
-        private bool OptionalFieldIsValid(string value, int minimum, int maximum)
-        {
-            if (value == null || value.Length == 0 || value == string.Empty)
-                return true;
-
-            return value.Length > minimum && value.Length < maximum;
         }
     }
 }

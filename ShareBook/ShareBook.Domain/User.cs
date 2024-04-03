@@ -1,6 +1,5 @@
 ﻿using ShareBook.Domain.Common;
 using ShareBook.Domain.Enums;
-using ShareBook.Helper.Crypto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +18,8 @@ namespace ShareBook.Domain
         public DateTime LastLogin { get; set; } = DateTime.Now;
         public string Linkedin { get; set; }
         public string Instagram { get; set; }
-        public  string Phone{ get; set; }
-        public Profile Profile { get;  set; } = Profile.User;
+        public string Phone { get; set; }
+        public Profile Profile { get; set; } = Profile.User;
         public bool Active { get; set; } = true;
         public bool AllowSendingEmail { get; set; } = true;
         public virtual Address Address { get; set; }
@@ -31,7 +30,6 @@ namespace ShareBook.Domain
         public string ParentEmail { get; set; }
         public string ParentHashCodeAproval { get; set; }
         public bool ParentAproved { get; set; } = true;
-
 
         public bool PasswordIsStrong()
         {
@@ -50,12 +48,12 @@ namespace ShareBook.Domain
 
         public void GenerateHashCodePassword()
         {
-            this.HashCodePassword =  Guid.NewGuid().ToString();
-            this.HashCodePasswordExpiryDate = DateTime.Now.AddDays(1); 
+            this.HashCodePassword = Guid.NewGuid().ToString();
+            this.HashCodePasswordExpiryDate = DateTime.Now.AddDays(1);
         }
 
         public bool HashCodePasswordIsValid(string hashCodePassword)
-             => hashCodePassword == this.HashCodePassword 
+             => hashCodePassword == this.HashCodePassword
                 && (this.HashCodePasswordExpiryDate.Date == DateTime.Now.AddDays(1).Date
                    || this.HashCodePasswordExpiryDate.Date == DateTime.Now.Date);
 
@@ -91,7 +89,7 @@ namespace ShareBook.Domain
 
         public string Location() => Address.City + "-" + Address.State;
 
-        public int TotalBooksWon() => BookUsers.Where(b => b.Status == DonationStatus.Donated).ToList().Count ;
+        public int TotalBooksWon() => BookUsers.Where(b => b.Status == DonationStatus.Donated).ToList().Count;
 
         public int TotalBooksDonated() => BooksDonated.Count(b => b.Status == BookStatus.WaitingSend || b.Status == BookStatus.Sent || b.Status == BookStatus.Received);
 
@@ -121,7 +119,6 @@ namespace ShareBook.Domain
             Address.PostalCode = null;
             Address.State = null;
             Address.Street = null;
-
         }
     }
 }

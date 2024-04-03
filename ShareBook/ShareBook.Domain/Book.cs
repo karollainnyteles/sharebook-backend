@@ -1,6 +1,5 @@
 ﻿using ShareBook.Domain.Common;
 using ShareBook.Domain.Enums;
-using ShareBook.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -56,11 +55,11 @@ namespace ShareBook.Domain
 
         public string EBookDownloadLink { get; set; }
         public string EBookPdfFile { get; set; }
-        public byte[] EBookPdfBytes {get; set; }
+        public byte[] EBookPdfBytes { get; set; }
 
         public Book()
         {
-           Status = BookStatus.WaitingApproval;
+            Status = BookStatus.WaitingApproval;
         }
 
         public string WinnerName()
@@ -101,8 +100,5 @@ namespace ShareBook.Domain
                 && EBookPdfBytes != null
                 && EBookPdfBytes.Length > 0;
         }
-
-
-        
     }
 }

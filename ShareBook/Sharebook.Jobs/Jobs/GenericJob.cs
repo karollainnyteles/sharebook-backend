@@ -29,7 +29,7 @@ namespace Sharebook.Jobs
 
         public bool HasWork()
         {
-            if(BestTimeToExecute != null)
+            if (BestTimeToExecute != null)
             {
                 var timeNow = DateTimeHelper.GetTimeNowSaoPaulo();
                 if (timeNow < BestTimeToExecute) return false;
@@ -54,30 +54,30 @@ namespace Sharebook.Jobs
             switch (i)
             {
                 case Interval.Dayly:
-                {
-                    result = result.AddHours(-23);
-                    break;
-                }
+                    {
+                        result = result.AddHours(-23);
+                        break;
+                    }
                 case Interval.Hourly:
-                {
-                    result = result.AddHours(-1);
-                    break;
-                }
+                    {
+                        result = result.AddHours(-1);
+                        break;
+                    }
                 case Interval.Weekly:
-                {
-                    result = result.AddDays(-7);
-                    break;
-                }
+                    {
+                        result = result.AddDays(-7);
+                        break;
+                    }
                 case Interval.Each30Minutes:
-                {
-                    result = result.AddMinutes(-30);
-                    break;
-                }
+                    {
+                        result = result.AddMinutes(-30);
+                        break;
+                    }
                 case Interval.Each5Minutes:
-                {
-                    result = result.AddMinutes(-5);
-                    break;
-                }
+                    {
+                        result = result.AddMinutes(-5);
+                        break;
+                    }
             }
 
             // ajuste de +1 minuto, levando em consideração o tempo que o job
@@ -88,7 +88,8 @@ namespace Sharebook.Jobs
 
         public JobResult Execute()
         {
-            try {
+            try
+            {
                 BeforeWork();
                 var history = Work();
                 AfterWork(history);
@@ -103,12 +104,11 @@ namespace Sharebook.Jobs
             {
                 return JobResult.MeetupDisabled;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 RollbarLocator.RollbarInstance.Error(ex);
                 return JobResult.Error;
             }
-            
         }
 
         // Sempre sobrescrito pelo Job real.
@@ -126,6 +126,5 @@ namespace Sharebook.Jobs
             history.TimeSpentSeconds = ((double)_stopwatch.ElapsedMilliseconds / (double)1000); ;
             _jobHistoryRepo.Insert(history);
         }
-
     }
 }

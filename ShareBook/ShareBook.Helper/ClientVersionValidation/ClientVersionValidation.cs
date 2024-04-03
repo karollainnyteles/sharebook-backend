@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace ShareBook.Helper
 {
-    static public class ClientVersionValidation
+    public static class ClientVersionValidation
     {
-        static public bool IsValidVersion(string version, string minVersion)
+        public static bool IsValidVersion(string version, string minVersion)
         {
             try
             {
@@ -25,10 +25,9 @@ namespace ShareBook.Helper
             {
                 return false;
             }
-
         }
 
-        static private Tuple<int, int, int> VersionDeconstructor(string version)
+        private static Tuple<int, int, int> VersionDeconstructor(string version)
         {
             string pattern = @"v([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$";
             Regex rg = new Regex(pattern);

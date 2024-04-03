@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using ShareBook.Domain;
 using ShareBook.Domain.DTOs;
-using ShareBook.Service.AwsSqs;
 using ShareBook.Service.Server;
+using System.Threading.Tasks;
 
 namespace ShareBook.Service
 {
@@ -12,7 +11,6 @@ namespace ShareBook.Service
         private readonly IEmailService _emailService;
         private readonly IEmailTemplate _emailTemplate;
         private readonly ServerSettings _serverSettings;
-
 
         public UserEmailService(IEmailService emailService, IEmailTemplate emailTemplate, IOptions<ServerSettings> serverSettings)
         {

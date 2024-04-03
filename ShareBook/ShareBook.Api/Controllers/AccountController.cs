@@ -25,7 +25,7 @@ namespace ShareBook.Api.Controllers
     [Route("api/[controller]")]
     [EnableCors("AllowAllHeaders")]
     [GetClaimsFilter]
-    public class AccountController : ControllerBase 
+    public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
         private readonly IApplicationSignInManager _signManager;
@@ -39,7 +39,7 @@ namespace ShareBook.Api.Controllers
             IMapper mapper,
             IConfiguration configuration,
             IAccessHistoryRepository historyRepository,
-            ILgpdService lgpdService) 
+            ILgpdService lgpdService)
         {
             _userService = userService;
             _signManager = signManager;
@@ -53,7 +53,7 @@ namespace ShareBook.Api.Controllers
 
         [HttpGet]
         [Authorize("Bearer")]
-        public UserVM Get() 
+        public UserVM Get()
         {
             var id = new Guid(Thread.CurrentPrincipal?.Identity?.Name);
             var user = _userService.Find(id);
@@ -64,7 +64,7 @@ namespace ShareBook.Api.Controllers
 
         [Authorize("Bearer")]
         [HttpGet("Profile")]
-        public object Profile() 
+        public object Profile()
         {
             var id = new Guid(Thread.CurrentPrincipal?.Identity?.Name);
             return new { profile = _userService.Find(id).Profile.ToString() };
@@ -72,7 +72,7 @@ namespace ShareBook.Api.Controllers
 
         [Authorize("Bearer")]
         [HttpGet("ListFacilitators/{userIdDonator}")]
-        public IActionResult ListFacilitators(Guid userIdDonator) 
+        public IActionResult ListFacilitators(Guid userIdDonator)
         {
             var facilitators = _userService.GetFacilitators(userIdDonator);
 
@@ -86,7 +86,7 @@ namespace ShareBook.Api.Controllers
         [ProducesResponseType(typeof(AccessHistoryVM), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> WhoAccessedMyProfile(Guid userId) 
+        public async Task<IActionResult> WhoAccessedMyProfile(Guid userId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -118,7 +118,6 @@ namespace ShareBook.Api.Controllers
                 else
                     return Ok(new Result(SuccessMessage: "Seu cadastro foi realizado com sucesso. Foi enviado um email para os pais solicitando o consentimento. Vamos te avisar por email quando seu acesso for liberado. Obrigado. =)"));
             }
-                
 
             return Conflict(result);
         }
@@ -133,7 +132,6 @@ namespace ShareBook.Api.Controllers
             [FromHeader(Name = "x-requested-with")] string client,
             [FromHeader(Name = "client-version")] string clientVersion)
         {
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -175,7 +173,7 @@ namespace ShareBook.Api.Controllers
         public IActionResult Anonymize([FromBody] UserAnonymizeDTO dto)
         {
             var userIdFromSession = new Guid(Thread.CurrentPrincipal?.Identity?.Name);
-            if(dto.UserId != userIdFromSession)
+            if (dto.UserId != userIdFromSession)
                 throw new ShareBookException(ShareBookException.Error.Forbidden, "Você não tem permissão para remover esse conta.");
 
             _lgpdService.Anonymize(dto);
@@ -243,7 +241,7 @@ namespace ShareBook.Api.Controllers
 
             if (string.IsNullOrEmpty(ParentHashCodeAproval) || !Guid.TryParse(ParentHashCodeAproval, out _))
                 throw new ShareBookException("Código inválido.");
-            
+
             _userService.ParentAproval(ParentHashCodeAproval);
             return Ok();
         }

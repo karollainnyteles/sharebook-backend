@@ -92,5 +92,4 @@ namespace ShareBook.Api.Middleware
     {
         public static IApplicationBuilder UseExceptionHandlerMiddleware(this IApplicationBuilder builder) => builder.UseMiddleware<ExceptionHandlerMiddleware>();
     }
-
 }

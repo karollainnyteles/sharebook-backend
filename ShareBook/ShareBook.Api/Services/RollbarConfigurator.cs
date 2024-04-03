@@ -9,7 +9,7 @@ namespace ShareBook.Api.Services
 
         public static void Configure(string environment, string isActive, string token, string logLevel)
         {
-            if (string.IsNullOrEmpty(environment) || 
+            if (string.IsNullOrEmpty(environment) ||
                 string.IsNullOrEmpty(isActive) ||
                 string.IsNullOrEmpty(token))
                 return;

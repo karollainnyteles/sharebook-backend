@@ -12,14 +12,18 @@ namespace ShareBook.Api.Controllers
     public class BaseDeleteController<T> : BaseDeleteController<T, T, T>
         where T : BaseEntity
     {
-        public BaseDeleteController(IBaseService<T> service) : base(service) { }
+        public BaseDeleteController(IBaseService<T> service) : base(service)
+        {
+        }
     }
 
     public class BaseDeleteController<T, R> : BaseDeleteController<T, R, T>
        where T : BaseEntity
        where R : BaseViewModel
     {
-        public BaseDeleteController(IBaseService<T> service) : base(service) { }
+        public BaseDeleteController(IBaseService<T> service) : base(service)
+        {
+        }
     }
 
     [GetClaimsFilter]
@@ -29,9 +33,10 @@ namespace ShareBook.Api.Controllers
         where R : IIdProperty
         where A : class
     {
+        public BaseDeleteController(IBaseService<T> service) : base(service)
+        {
+        }
 
-        public BaseDeleteController(IBaseService<T> service) : base(service) { }
- 
         [Authorize("Bearer")]
         [HttpDelete("{id}")]
         public Result Delete(Guid id) => _service.Delete(id);

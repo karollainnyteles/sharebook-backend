@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ShareBook.Service.AwsSqs
+﻿namespace ShareBook.Service.AwsSqs
 {
     public class AwsSqsSettings
     {
@@ -11,7 +7,7 @@ namespace ShareBook.Service.AwsSqs
         public string SecretKey { get; set; }
         public string Region { get; set; }
         public string QueueBaseUrl { get; set; }
-        
+
         // Queues
         public string NewBookQueue { get; set; }
 

@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using ShareBook.Domain;
+﻿using ShareBook.Domain;
+using System.Threading.Tasks;
 
 namespace ShareBook.Service
 {
@@ -10,6 +10,5 @@ namespace ShareBook.Service
         Task SendEmailBookApproved(Book book);
 
         void SendEmailBookReceived(Book book);
-
     }
 }

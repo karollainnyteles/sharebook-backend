@@ -14,6 +14,7 @@ public class PushNotificationService : IPushNotificationService
 {
     private readonly PushNotificationSettings _settings;
     private readonly OneSignalClient _oneSignalClient;
+
     public PushNotificationService(IOptions<PushNotificationSettings> pushNotificationSettings)
     {
         _settings = pushNotificationSettings.Value;
@@ -67,12 +68,12 @@ public class PushNotificationService : IPushNotificationService
         return $"Notification enviado para o {onesignal.Value} com sucesso";
     }
 
-
     public string SendNotificationByEmail(string email, string title, string content)
     {
         if (!_settings.IsActive) return "";
 
-        try {
+        try
+        {
             var notificationCreateOptions = new NotificationCreateOptions
             {
                 AppId = new Guid(_settings.AppId)
@@ -93,10 +94,11 @@ public class PushNotificationService : IPushNotificationService
 
             return $"Notification enviado para o {email} com sucesso";
         }
-        catch(Exception ex) {
+        catch (Exception ex)
+        {
             RollbarLocator.RollbarInstance.Error(ex);
             return "";
-        }            
+        }
     }
 
     private string GetSegments(TypeSegments typeSegments)
@@ -105,12 +107,16 @@ public class PushNotificationService : IPushNotificationService
         {
             case TypeSegments.Inactive:
                 return "Inactive Users";
+
             case TypeSegments.Engaged:
                 return "Engaged Users";
+
             case TypeSegments.All:
                 return "Subscribed Users";
+
             case TypeSegments.Active:
                 return "Active Users";
+
             default:
                 return "";
         }

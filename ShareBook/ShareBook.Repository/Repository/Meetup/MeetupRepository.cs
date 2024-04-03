@@ -13,7 +13,6 @@ namespace ShareBook.Repository
     {
         public MeetupRepository(ApplicationDbContext context) : base(context)
         {
-
         }
 
         public override async Task<PagedList<Meetup>> GetAsync<TKey>(Expression<Func<Meetup, bool>> filter, Expression<Func<Meetup, TKey>> order, int page, int itemsPerPage, IncludeList<Meetup> includes)

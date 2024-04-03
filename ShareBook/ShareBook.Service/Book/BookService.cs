@@ -33,7 +33,7 @@ namespace ShareBook.Service
 
         public BookService(IBookRepository bookRepository,
                     IUnitOfWork unitOfWork, IValidator<Book> validator,
-                    IUploadService uploadService, IBooksEmailService booksEmailService, IConfiguration configuration, 
+                    IUploadService uploadService, IBooksEmailService booksEmailService, IConfiguration configuration,
                     NewBookQueue newBookQueue)
                     : base(bookRepository, unitOfWork, validator)
         {
@@ -59,13 +59,13 @@ namespace ShareBook.Service
             _booksEmailService.SendEmailBookApproved(book).Wait();
 
             // notifica possíveis interessados.
-            var message = new NewBookBody{
+            var message = new NewBookBody
+            {
                 BookId = book.Id,
                 BookTitle = book.Title,
                 CategoryId = book.CategoryId
             };
             _newBookQueue.SendMessage(message).Wait();
-            
         }
 
         public void Received(Guid bookId, Guid winnerUserId)
@@ -158,7 +158,6 @@ namespace ShareBook.Service
             return books.Select(b => { b.ImageUrl = _uploadService.GetImageUrl(b.ImageSlug, "Books"); return b; }).ToList();
         }
 
-
         public IList<Book> GetAll(int page, int items)
             => _repository.Get().Include(b => b.User).Include(b => b.BookUsers)
             .Skip((page - 1) * items)
@@ -166,13 +165,13 @@ namespace ShareBook.Service
 
         public override Book Find(object keyValue)
         {
-            var result = _repository.Get()
+            var result = _repository
+                .Get()
                 .Include(b => b.User)
                 .ThenInclude(u => u.Address)
                 .Include(b => b.Category)
                 .Include(b => b.UserFacilitator)
-                .Where(b => b.Id == (Guid)keyValue)
-                .FirstOrDefault();
+                .FirstOrDefault(b => b.Id == (Guid)keyValue);
 
             if (result == null)
                 throw new ShareBookException(ShareBookException.Error.NotFound);
@@ -247,7 +246,6 @@ namespace ShareBook.Service
             // Condição efetuada para evitar busca no BD desnecessariamente por conta do SetSlugByTitleOrIncremental()
             if (savedBook.Slug != entity.Slug)
                 savedBook.Slug = SetSlugByTitleOrIncremental(entity);
-
 
             savedBook.Synopsis = entity.Synopsis;
             savedBook.TrackingNumber = entity.TrackingNumber;
@@ -477,7 +475,7 @@ namespace ShareBook.Service
             var status = new BookStatsDTO();
 
             status.TotalWaitingApproval = groupedStatus.Where(g => g.Status == BookStatus.WaitingApproval).Any()
-                ? groupedStatus.Where(g => g.Status == BookStatus.WaitingApproval).FirstOrDefault().Total
+                ? groupedStatus.FirstOrDefault(g => g.Status == BookStatus.WaitingApproval).Total
                 : 0;
 
             status.TotalOk = groupedStatus

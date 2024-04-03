@@ -15,17 +15,16 @@ namespace Sharebook.Jobs
         private readonly IEmailTemplate _emailTemplate;
 
         public RemoveBookFromShowcase(
-            IBookService bookService, 
+            IBookService bookService,
             IJobHistoryRepository jobHistoryRepo,
             IEmailService emailService,
             IEmailTemplate emailTemplate) : base(jobHistoryRepo)
         {
-
-            JobName     = "RemoveBookFromShowcase";
+            JobName = "RemoveBookFromShowcase";
             Description = "Remove o livro da vitrine no dia da decisão. " +
                           "Caso o livro não tenha interessado o mesmo tem a data renovada por mais 10 dias.";
-            Interval    = Interval.Dayly;
-            Active      = true;
+            Interval = Interval.Dayly;
+            Active = true;
             BestTimeToExecute = new TimeSpan(9, 0, 0);
 
             _bookService = bookService;
@@ -75,7 +74,6 @@ namespace Sharebook.Jobs
             };
         }
 
-
         #region métodos privados de apoio
 
         private void SendEmail(Book book)
@@ -97,7 +95,6 @@ namespace Sharebook.Jobs
             _emailService.Send(book.User.Email, book.User.Name, emailBodyHTML, emailSubject, copyAdmins: false, highPriority: true);
         }
 
-        #endregion
-
+        #endregion métodos privados de apoio
     }
 }

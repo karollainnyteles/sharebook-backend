@@ -5,12 +5,14 @@ namespace ShareBook.Domain.Validators
     public class ContactUsValidator : AbstractValidator<ContactUs>
     {
         #region Messages
+
         public const string NAME_REQUIRED = "Nome é obrigatório";
         public const string EMAIL_REQUIRED = "Email é obrigatório";
         public const string EMAIL_FORMAT = "O formato do email está inválido";
         public const string PHONE_REQUIRED = "Telefone é obrigatório";
         public const string MESSAGE_REQUIRED = "Mensagem é obrigatória";
-        #endregion
+
+        #endregion Messages
 
         public ContactUsValidator()
         {

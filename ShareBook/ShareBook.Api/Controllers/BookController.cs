@@ -7,6 +7,8 @@ using ShareBook.Api.ViewModels;
 using ShareBook.Domain;
 using ShareBook.Domain.Common;
 using ShareBook.Domain.DTOs;
+using ShareBook.Domain.Enums;
+using ShareBook.Domain.Exceptions;
 using ShareBook.Repository.Repository;
 using ShareBook.Service;
 using ShareBook.Service.Authorization;
@@ -15,9 +17,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Flurl.Util;
-using ShareBook.Domain.Enums;
-using ShareBook.Domain.Exceptions;
 
 namespace ShareBook.Api.Controllers
 {
@@ -56,7 +55,7 @@ namespace ShareBook.Api.Controllers
         [AuthorizationFilter(Permissions.Permission.DonateBook)]
         public PagedList<BookVMAdm> GetAll() => Paged(1, 15);
 
-        [HttpGet("{page}/{items}")]
+        [HttpGet("{page:int}/{items:int}")]
         [Authorize("Bearer")]
         [AuthorizationFilter(Permissions.Permission.DonateBook)]
         public PagedList<BookVMAdm> Paged(int page, int items)
@@ -409,7 +408,7 @@ namespace ShareBook.Api.Controllers
                     donorId = mainUsers.Donor.Id;
                 }
 
-                //O id do usuário logado é comparado com o doador, facilitador e ganhador 
+                //O id do usuário logado é comparado com o doador, facilitador e ganhador
                 if (visitor.Id.Equals(facilitatorId)) return VisitorProfile.Facilitator;
                 else if (visitor.Id.Equals(winnerId)) return VisitorProfile.Winner;
                 else if (visitor.Id.Equals(donorId)) return VisitorProfile.Donor;

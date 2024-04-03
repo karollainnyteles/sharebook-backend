@@ -7,7 +7,7 @@ namespace ShareBook.Helper.Extensions
     {
         public static string Description(this Enum value)
         {
-            // get attributes  
+            // get attributes
             var field = value.GetType().GetField(value.ToString());
             var attributes = field.GetCustomAttributes(false);
 

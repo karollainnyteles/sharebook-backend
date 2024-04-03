@@ -8,15 +8,12 @@ namespace ShareBook.Repository.Mapping
     {
         public CategoryMap(EntityTypeBuilder<Category> entityBuilder)
         {
-
             entityBuilder.HasKey(t => t.Id);
 
             entityBuilder.Property(t => t.Name)
                 .HasColumnType("varchar(100)")
                 .HasMaxLength(100)
                 .IsRequired();
-
-            
         }
     }
 }

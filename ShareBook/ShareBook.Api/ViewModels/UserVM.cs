@@ -5,7 +5,6 @@ namespace ShareBook.Api.ViewModels
 {
     public class UserVM : BaseViewModel
     {
-
         public string Name { get; set; }
 
         public string Email { get; set; }
@@ -23,7 +22,6 @@ namespace ShareBook.Api.ViewModels
 
     public class UserFacilitatorVM
     {
-
         public Guid Id { get; set; }
 
         public string Name { get; set; }

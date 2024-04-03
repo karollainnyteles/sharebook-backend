@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShareBook.Service
 {
-    public interface IBookUserService 
+    public interface IBookUserService
     {
         void Insert(Guid bookId, string reason);
 
@@ -30,7 +30,9 @@ namespace ShareBook.Service
         Result<Book> Cancel(BookCancelationDTO dto);
 
         void InformTrackingNumber(Guid bookId, string trackingNumber);
+
         BookUser GetRequest(Guid requestId);
+
         bool CancelRequest(BookUser request);
     }
 }

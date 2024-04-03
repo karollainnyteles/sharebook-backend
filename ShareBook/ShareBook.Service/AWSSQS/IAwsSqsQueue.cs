@@ -1,6 +1,4 @@
-﻿using ShareBook.Domain;
-using ShareBook.Service.AwsSqs.Dto;
-using System;
+﻿using ShareBook.Service.AwsSqs.Dto;
 using System.Threading.Tasks;
 
 namespace ShareBook.Service.AwsSqs

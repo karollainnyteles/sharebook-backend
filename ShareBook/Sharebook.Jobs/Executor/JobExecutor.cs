@@ -42,7 +42,6 @@ public class JobExecutor : IJobExecutor
             job6,
             job7
         };
-
     }
 
     public JobExecutorResult Execute()
@@ -64,26 +63,25 @@ public class JobExecutor : IJobExecutor
 
                 if (job.HasWork())
                 {
-
                     var result = job.Execute();
 
-                    switch(result)
+                    switch (result)
                     {
-                        case JobResult.Success: 
+                        case JobResult.Success:
                             messages.Add(string.Format("Job {0}: job executado com sucesso.", job.JobName));
                             break;
 
-                        case JobResult.Error: 
+                        case JobResult.Error:
                             success = false;
                             messages.Add(string.Format("Job {0}: ocorreu um erro ao executar o job. Verifique os logs.", job.JobName));
-                        break;
+                            break;
 
-                        case JobResult.AwsSqsDisabled: 
+                        case JobResult.AwsSqsDisabled:
                             success = true;
                             messages.Add(string.Format("Job {0}: não foi executado porque o serviço AWS SQS ESTÁ DESATIVADO.", job.JobName));
                             continue;
 
-                        case JobResult.MeetupDisabled: 
+                        case JobResult.MeetupDisabled:
                             success = true;
                             messages.Add(string.Format("Job {0}: não foi executado porque o serviço MEETUP ESTÁ DESATIVADO.", job.JobName));
                             continue;
@@ -144,4 +142,3 @@ public class JobExecutor : IJobExecutor
         RollbarLocator.RollbarInstance.Error(error);
     }
 }
-

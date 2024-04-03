@@ -23,7 +23,7 @@ namespace ShareBook.Api.Controllers
         }
 
         [HttpPost("SendMessage")]
-        public Result<ContactUs> SendMessage([FromBody]ContactUsVM contactUsVM)
+        public Result<ContactUs> SendMessage([FromBody] ContactUsVM contactUsVM)
         {
             var contactUS = _mapper.Map<ContactUs>(contactUsVM);
 

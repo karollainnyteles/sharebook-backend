@@ -3,7 +3,9 @@
     public interface IUploadService
     {
         string UploadImage(byte[] imageBytes, string imageName, string lastDirectory);
+
         string UploadPdf(byte[] imageBytes, string imageName, string lastDirectory);
+
         string GetImageUrl(string imageName, string lastDirectory);
     }
 }

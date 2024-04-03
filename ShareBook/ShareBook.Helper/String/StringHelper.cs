@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShareBook.Helper.String
 {
@@ -23,6 +19,7 @@ namespace ShareBook.Helper.String
             int stepsToSame = ComputeLevenshteinDistance(source, target);
             return (1.0 - ((double)stepsToSame / (double)Math.Max(source.Length, target.Length)));
         }
+
         /// <summary>
         /// Returns the number of steps required to transform the source string
         /// into the target string.
@@ -46,8 +43,8 @@ namespace ShareBook.Helper.String
             int[,] distance = new int[sourceWordCount + 1, targetWordCount + 1];
 
             // Step 2
-            for (int i = 0; i <= sourceWordCount; distance[i, 0] = i++);
-            for (int j = 0; j <= targetWordCount; distance[0, j] = j++);
+            for (int i = 0; i <= sourceWordCount; distance[i, 0] = i++) ;
+            for (int j = 0; j <= targetWordCount; distance[0, j] = j++) ;
 
             for (int i = 1; i <= sourceWordCount; i++)
             {

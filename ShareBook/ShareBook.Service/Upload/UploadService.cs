@@ -4,7 +4,6 @@ using ShareBook.Service.Server;
 using System;
 using System.IO;
 
-
 namespace ShareBook.Service.Upload
 {
     public class UploadService : IUploadService
@@ -24,7 +23,6 @@ namespace ShareBook.Service.Upload
             return ImageHelper.GenerateImageUrl(imageName, dinamicDirectory, _serverSettings.DefaultUrl);
         }
 
-
         public string UploadImage(byte[] imageBytes, string imageName, string lastDirectory)
         {
             var dinamicDirectory = Path.Combine(_imageSettings.ImagePath, lastDirectory);
@@ -43,7 +41,7 @@ namespace ShareBook.Service.Upload
 
             return GetImageUrl(imageName, lastDirectory);
         }
-     
+
         public string UploadPdf(byte[] imageBytes, string imageName, string lastDirectory)
         {
             var dinamicDirectory = Path.Combine(_imageSettings.EBookPdfPath, lastDirectory);
@@ -51,7 +49,6 @@ namespace ShareBook.Service.Upload
             UploadFile(imageBytes, imageName, dinamicDirectory);
 
             return Path.Combine(lastDirectory, dinamicDirectory.Replace("wwwroot", ""), imageName);
-
         }
 
         private static void UploadFile(byte[] imageBytes, string imageName, string dinamicDirectory)

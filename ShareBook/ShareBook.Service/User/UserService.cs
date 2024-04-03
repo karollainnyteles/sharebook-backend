@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using ShareBook.Domain;
 using ShareBook.Domain.Common;
 using ShareBook.Domain.DTOs;
@@ -16,6 +11,10 @@ using ShareBook.Repository.Repository;
 using ShareBook.Repository.UoW;
 using ShareBook.Service.Generic;
 using ShareBook.Service.Recaptcha;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace ShareBook.Service
 {
@@ -25,9 +24,8 @@ namespace ShareBook.Service
         private readonly IBookRepository _bookRepository;
         private readonly IUserEmailService _userEmailService;
         private readonly IRecaptchaService _recaptchaService;
-        
-        private readonly IMapper _mapper;
 
+        private readonly IMapper _mapper;
 
         #region Public
 
@@ -98,7 +96,7 @@ namespace ShareBook.Service
             Result resultRecaptcha = _recaptchaService.SimpleValidationRecaptcha(userDto?.RecaptchaReactive);
 
             var result = Validate(user);
-            if (!resultRecaptcha.Success && resultRecaptcha.Messages != null) 
+            if (!resultRecaptcha.Success && resultRecaptcha.Messages != null)
                 result.Messages.AddRange(resultRecaptcha.Messages);
 
             if (!result.Success)
@@ -255,7 +253,8 @@ namespace ShareBook.Service
                     }).ToList();
         }
 
-        public IList<User> GetAdmins() {
+        public IList<User> GetAdmins()
+        {
             return _userRepository.Get()
                 .Where(u => u.Profile == Domain.Enums.Profile.Administrator)
                 .ToList();
@@ -271,9 +270,9 @@ namespace ShareBook.Service
 
             string decryptedPass = user.Password;
 
-            user = _repository.Get()
-                .Where(e => e.Id == user.Id)
-                .FirstOrDefault();
+            user = _repository
+                .Get()
+                .FirstOrDefault(e => e.Id == user.Id);
 
             if (user == null || !IsValidPassword(user, decryptedPass))
             {
@@ -328,9 +327,9 @@ namespace ShareBook.Service
 
         public void ParentAproval(string parentHashCodeAproval)
         {
-            var user = _repository.Get()
-                .Where(u => u.ParentHashCodeAproval == parentHashCodeAproval)
-                .FirstOrDefault();
+            var user = _repository
+                .Get()
+                .FirstOrDefault(u => u.ParentHashCodeAproval == parentHashCodeAproval);
 
             if (user == null)
                 throw new ShareBookException(ShareBookException.Error.NotFound, "Nenhum usuário encontrado.");
@@ -344,7 +343,6 @@ namespace ShareBook.Service
             _userEmailService.SendEmailParentAprovedNotifyUser(user);
         }
 
-        
         #endregion Private
     }
 }

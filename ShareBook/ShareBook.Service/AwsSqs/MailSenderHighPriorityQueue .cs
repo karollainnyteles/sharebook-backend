@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using ShareBook.Service.AwsSqs.Dto;
 
 namespace ShareBook.Service.AwsSqs;
