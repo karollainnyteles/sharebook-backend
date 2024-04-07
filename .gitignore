@@ -265,3 +265,4 @@ coverage.xml
 
 # git internal
 .git
+/ShareBook/database/docker-compose.yml
