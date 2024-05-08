@@ -21,7 +21,7 @@ public class PushNotificationService : IPushNotificationService
         _oneSignalClient = new OneSignalClient(_settings.ApiKey);
     }
 
-    public string SendNotificationSegments(NotificationOnesignal onesignal)
+    public string SendNotificationSegments(NotificationOnesignal notficationSettings)
     {
         if (!_settings.IsActive) return "";
 
@@ -32,18 +32,18 @@ public class PushNotificationService : IPushNotificationService
 
         notificationCreateOptions.IncludedSegments = new List<string>()
         {
-            GetSegments(onesignal.TypeSegments)
+            GetSegments(notficationSettings.TypeSegments)
         };
 
-        notificationCreateOptions.Headings.Add(LanguageCodes.Portuguese, onesignal.Title);
-        notificationCreateOptions.Contents.Add(LanguageCodes.Portuguese, onesignal.Content);
+        notificationCreateOptions.Headings.Add(LanguageCodes.Portuguese, notficationSettings.Title);
+        notificationCreateOptions.Contents.Add(LanguageCodes.Portuguese, notficationSettings.Content);
 
         _oneSignalClient.Notifications.Create(notificationCreateOptions);
 
         return "Enviado com sucesso";
     }
 
-    public string SendNotificationByKey(NotificationOnesignal onesignal)
+    public string SendNotificationByKey(NotificationOnesignal notficationSettings)
     {
         if (!_settings.IsActive) return "";
 
@@ -54,18 +54,18 @@ public class PushNotificationService : IPushNotificationService
 
         notificationCreateOptions.Filters = new List<INotificationFilter>
         {
-            new NotificationFilterField { Field = NotificationFilterFieldTypeEnum.Tag, Key = onesignal.Key, Value = onesignal.Value}
+            new NotificationFilterField { Field = NotificationFilterFieldTypeEnum.Tag, Key = notficationSettings.Key, Value = notficationSettings.Value}
         };
 
-        notificationCreateOptions.Headings.Add(LanguageCodes.English, onesignal.Title);
-        notificationCreateOptions.Contents.Add(LanguageCodes.English, onesignal.Content);
+        notificationCreateOptions.Headings.Add(LanguageCodes.English, notficationSettings.Title);
+        notificationCreateOptions.Contents.Add(LanguageCodes.English, notficationSettings.Content);
 
-        notificationCreateOptions.Headings.Add(LanguageCodes.Portuguese, onesignal.Title);
-        notificationCreateOptions.Contents.Add(LanguageCodes.Portuguese, onesignal.Content);
+        notificationCreateOptions.Headings.Add(LanguageCodes.Portuguese, notficationSettings.Title);
+        notificationCreateOptions.Contents.Add(LanguageCodes.Portuguese, notficationSettings.Content);
 
         _oneSignalClient.Notifications.Create(notificationCreateOptions);
 
-        return $"Notification enviado para o {onesignal.Value} com sucesso";
+        return $"Notification enviado para o {notficationSettings.Value} com sucesso";
     }
 
     public string SendNotificationByEmail(string email, string title, string content)

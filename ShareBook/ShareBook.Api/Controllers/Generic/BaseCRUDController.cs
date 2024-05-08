@@ -28,6 +28,7 @@ namespace ShareBook.Api.Controllers
     }
 
     [GetClaimsFilter]
+    [Route("api/[controller]")]
     [EnableCors("AllowAllHeaders")]
     public class BaseCrudController<T, R, A> : BaseDeleteController<T, R, A>
         where T : BaseEntity

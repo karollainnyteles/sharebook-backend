@@ -181,7 +181,7 @@ namespace ShareBook.Service
             NotifyUsersBookCanceled(book);
         }
 
-        public PagedList<BookUser> GetRequestsByUser(int page, int itemsPerPage)
+        public PagedList<BookUser> GetRequestsByUser(int page, int items)
         {
             var userId = new Guid(Thread.CurrentPrincipal?.Identity?.Name);
             var query = _bookUserRepository.Get()
@@ -189,7 +189,7 @@ namespace ShareBook.Service
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.CreationDate);
 
-            var result = FormatPagedList(query, page, itemsPerPage);
+            var result = FormatPagedList(query, page, items);
 
             // só mostra o código de rastreio se ele for o ganhador.
             result.Items = result.Items.Select(bu =>

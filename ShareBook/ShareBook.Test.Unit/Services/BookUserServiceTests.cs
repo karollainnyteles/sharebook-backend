@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Moq;
+using ShareBook.Domain;
 using ShareBook.Domain.Validators;
 using ShareBook.Repository;
 using ShareBook.Repository.UoW;
@@ -16,16 +17,15 @@ namespace ShareBook.Test.Unit.Services
     {
         private Guid bookId;
 
-        readonly Mock<IBookService> bookServiceMock;
-        readonly Mock<IBookUserRepository> bookUserRepositoryMock;
-        readonly Mock<IBooksEmailService> bookEmailService;
-        readonly Mock<IUnitOfWork> unitOfWorkMock;
-        readonly Mock<IBookUsersEmailService> bookUsersEmailService;
-        readonly BookUserValidator bookUserValidator;
-        readonly Mock<IMuambatorService> muambatorServiceMock;
-        readonly Mock<IBookRepository> bookRepositoryMock;
-        readonly Mock<IConfiguration> configurationMock;
-
+        private readonly Mock<IBookService> bookServiceMock;
+        private readonly Mock<IBookUserRepository> bookUserRepositoryMock;
+        private readonly Mock<IBooksEmailService> bookEmailService;
+        private readonly Mock<IUnitOfWork> unitOfWorkMock;
+        private readonly Mock<IBookUsersEmailService> bookUsersEmailService;
+        private readonly BookUserValidator bookUserValidator;
+        private readonly Mock<IMuambatorService> muambatorServiceMock;
+        private readonly Mock<IBookRepository> bookRepositoryMock;
+        private readonly Mock<IConfiguration> configurationMock;
 
         public BookUserServiceTests()
         {
@@ -57,11 +57,11 @@ namespace ShareBook.Test.Unit.Services
                 bookServiceMock.Object, bookUsersEmailService.Object, muambatorServiceMock.Object, bookRepositoryMock.Object,
                 unitOfWorkMock.Object, bookUserValidator, configurationMock.Object);
 
-
-            string reason = "I need this book because I'm learning a new programming language.";
-
+            const string reason = "I need this book because I'm learning a new programming language.";
             service.Insert(bookId, reason);
 
+            bookUserRepositoryMock
+                .Verify(x => x.Insert(It.IsAny<BookUser>()), Times.Once);
         }
     }
 }

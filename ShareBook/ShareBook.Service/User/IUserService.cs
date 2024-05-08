@@ -27,7 +27,7 @@ namespace ShareBook.Service
 
         IList<User> GetAdmins();
 
-        IList<User> GetBySolicitedBookCategory(Guid BookCategoryId);
+        IList<User> GetBySolicitedBookCategory(Guid bookCategoryId);
 
         UserStatsDTO GetStats(Guid? userId);
 

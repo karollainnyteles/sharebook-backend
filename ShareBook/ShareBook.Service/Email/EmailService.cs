@@ -13,6 +13,7 @@ using ShareBook.Service.AwsSqs.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Threading.Tasks;
 
 namespace ShareBook.Service;
@@ -40,7 +41,10 @@ public class EmailService : IEmailService
 
         _imapClient = new ImapClient();
         _imapClient.CheckCertificateRevocation = false;
+
+#if DEBUG
         _imapClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+#endif
         _ctx = ctx;
     }
 
@@ -53,7 +57,7 @@ public class EmailService : IEmailService
     public async Task Send(string emailRecipient, string nameRecipient, string messageText, string subject)
         => await Send(emailRecipient, nameRecipient, messageText, subject, copyAdmins: false, highPriority: true);
 
-    public async Task Send(string emailRecipient, string nameRecipient, string messageText, string subject, bool copyAdmins = false, bool highPriority = true)
+    public async Task Send(string emailRecipient, string nameRecipient, string messageText, string subject, bool copyAdmins, bool highPriority)
     {
         var sqsEnabled = bool.Parse(_configuration["AwsSqsSettings:IsActive"]);
 
@@ -91,13 +95,19 @@ public class EmailService : IEmailService
         var client = new SmtpClient();
 
         if (_settings.UseSSL)
-            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+            client.ServerCertificateValidationCallback = (s, c, h, e) =>
+            {
+#if DEBUG
+                return true;
+#endif
+                return e == SslPolicyErrors.None;
+            };
 
         client.CheckCertificateRevocation = false;
-        client.Connect(_settings.HostName, _settings.Port, _settings.UseSSL);
-        client.Authenticate(_settings.Username, _settings.Password);
+        await client.ConnectAsync(_settings.HostName, _settings.Port, _settings.UseSSL);
+        await client.AuthenticateAsync(_settings.Username, _settings.Password);
         await client.SendAsync(message);
-        client.Disconnect(true);
+        await client.DisconnectAsync(true);
     }
 
     private MimeMessage FormatEmail(string emailRecipient, string nameRecipient, string messageText, string subject, bool copyAdmins)
