@@ -9,36 +9,37 @@ using System.Linq.Expressions;
 
 namespace ShareBook.Api.Controllers
 {
-    public class BaseController<T> : BaseController<T, T, T>
+    public abstract class BaseController<T> : BaseController<T, T, T>
         where T : BaseEntity
     {
-        public BaseController(IBaseService<T> service) : base(service)
+        protected BaseController(IBaseService<T> service) : base(service)
         {
         }
     }
 
-    public class BaseController<T, R> : BaseController<T, R, T>
+    public abstract class BaseController<T, R> : BaseController<T, R, T>
         where T : BaseEntity
         where R : BaseViewModel
     {
-        public BaseController(IBaseService<T> service) : base(service)
+        protected BaseController(IBaseService<T> service) : base(service)
         {
         }
     }
 
     [GetClaimsFilter]
     [EnableCors("AllowAllHeaders")]
-    public class BaseController<T, R, A> : Controller
+    public abstract class BaseController<T, R, A> : Controller
         where T : BaseEntity
         where R : IIdProperty
         where A : class
     {
         protected readonly IBaseService<T> _service;
         private Expression<Func<T, object>> _defaultOrder = x => x.Id;
+
         protected bool HasRequestViewModel
         { get { return typeof(R) != typeof(T); } }
 
-        public BaseController(IBaseService<T> service)
+        protected BaseController(IBaseService<T> service)
         {
             _service = service;
         }

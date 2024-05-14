@@ -9,19 +9,19 @@ using System;
 
 namespace ShareBook.Api.Controllers
 {
-    public class BaseDeleteController<T> : BaseDeleteController<T, T, T>
+    public abstract class BaseDeleteController<T> : BaseDeleteController<T, T, T>
         where T : BaseEntity
     {
-        public BaseDeleteController(IBaseService<T> service) : base(service)
+        protected BaseDeleteController(IBaseService<T> service) : base(service)
         {
         }
     }
 
-    public class BaseDeleteController<T, R> : BaseDeleteController<T, R, T>
+    public abstract class BaseDeleteController<T, R> : BaseDeleteController<T, R, T>
        where T : BaseEntity
        where R : BaseViewModel
     {
-        public BaseDeleteController(IBaseService<T> service) : base(service)
+        protected BaseDeleteController(IBaseService<T> service) : base(service)
         {
         }
     }
@@ -29,12 +29,12 @@ namespace ShareBook.Api.Controllers
     [GetClaimsFilter]
     [EnableCors("AllowAllHeaders")]
     [Route("api/[controller]")]
-    public class BaseDeleteController<T, R, A> : BaseController<T, R, A>
+    public abstract class BaseDeleteController<T, R, A> : BaseController<T, R, A>
         where T : BaseEntity
         where R : IIdProperty
         where A : class
     {
-        public BaseDeleteController(IBaseService<T> service) : base(service)
+        protected BaseDeleteController(IBaseService<T> service) : base(service)
         {
         }
 

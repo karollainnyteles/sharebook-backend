@@ -10,19 +10,19 @@ using System;
 
 namespace ShareBook.Api.Controllers
 {
-    public class BaseCrudController<T> : BaseCrudController<T, T, T>
+    public abstract class BaseCrudController<T> : BaseCrudController<T, T, T>
         where T : BaseEntity
     {
-        public BaseCrudController(IBaseService<T> service, IMapper mapper) : base(service, mapper)
+        protected BaseCrudController(IBaseService<T> service, IMapper mapper) : base(service, mapper)
         {
         }
     }
 
-    public class BaseCrudController<T, R> : BaseDeleteController<T, R, T>
+    public abstract class BaseCrudController<T, R> : BaseDeleteController<T, R, T>
        where T : BaseEntity
        where R : BaseViewModel
     {
-        public BaseCrudController(IBaseService<T> service) : base(service)
+        protected BaseCrudController(IBaseService<T> service) : base(service)
         {
         }
     }
@@ -30,14 +30,14 @@ namespace ShareBook.Api.Controllers
     [GetClaimsFilter]
     [Route("api/[controller]")]
     [EnableCors("AllowAllHeaders")]
-    public class BaseCrudController<T, R, A> : BaseDeleteController<T, R, A>
+    public abstract class BaseCrudController<T, R, A> : BaseDeleteController<T, R, A>
         where T : BaseEntity
         where R : IIdProperty
         where A : class
     {
         protected readonly IMapper _mapper;
 
-        public BaseCrudController(IBaseService<T> service, IMapper mapper) : base(service)
+        protected BaseCrudController(IBaseService<T> service, IMapper mapper) : base(service)
         {
             _mapper = mapper;
         }
