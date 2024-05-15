@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace ShareBook.Helper.Crypto
 {
-    public class Salt
+    public static class Salt
     {
         public static string Create()
         {

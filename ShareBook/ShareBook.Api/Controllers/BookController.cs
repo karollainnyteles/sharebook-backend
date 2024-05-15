@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +12,10 @@ using ShareBook.Domain.Exceptions;
 using ShareBook.Repository.Repository;
 using ShareBook.Service;
 using ShareBook.Service.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Profile = ShareBook.Domain.Enums.Profile;
 
 namespace ShareBook.Api.Controllers;
@@ -43,7 +43,6 @@ public class BookController : ControllerBase
         _mapper = mapper;
         _accessHistoryService = accessHistoryService;
     }
-
 
     [HttpGet]
     [Authorize("Bearer")]
@@ -101,7 +100,7 @@ public class BookController : ControllerBase
         var cancelationDTO = new BookCancelationDTO
         {
             Book = _service.Find(new Guid(id)),
-            CanceledBy = GetSessionUser().Name,
+            CanceledBy = GetUser().Name,
             Reason = reason
         };
 
@@ -119,7 +118,7 @@ public class BookController : ControllerBase
     }
 
     // TODO: método deprecado. Remover depois que todos usarem o novo 'RequestersList'.
-    [Obsolete]
+    [Obsolete("Replaced by RequestersList")]
     [Authorize("Bearer")]
     [HttpGet("GranteeUsersByBookId/{bookId}")]
     [AuthorizationFilter(Permissions.Permission.DonateBook)]
@@ -449,7 +448,7 @@ public class BookController : ControllerBase
 
     private bool _IsAdmin(User user)
     {
-        if (user == null || user?.Profile == null) return false;
+        if (user?.Profile == null) return false;
         return user.Profile.Equals(Profile.Administrator);
     }
 
@@ -468,11 +467,5 @@ public class BookController : ControllerBase
             return true;
 
         return false;
-    }
-
-    private User GetSessionUser()
-    {
-        var userId = new Guid(Thread.CurrentPrincipal?.Identity?.Name);
-        return _userService.Find(userId);
     }
 }

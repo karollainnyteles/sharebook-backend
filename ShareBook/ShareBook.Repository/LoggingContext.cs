@@ -67,7 +67,7 @@ namespace ShareBook.Repository
                         ValuesChanges = EntityDiff,
                     };
 
-                    context.LogEntries.Add(logEntry);
+                    await context.LogEntries.AddAsync(logEntry);
                 }
             }
         }

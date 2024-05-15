@@ -9,7 +9,7 @@ namespace ShareBook.Service
 {
     public class EmailTemplate : IEmailTemplate
     {
-        private string TemplatesFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Email", "Templates", "{0}.html");
+        private readonly string TemplatesFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Email", "Templates", "{0}.html");
         private const string PropertyRegex = @"\{(.*?)\}";
         private Dictionary<string, string> Templates { get; set; } = new Dictionary<string, string>();
 

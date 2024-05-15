@@ -168,20 +168,20 @@ public class EmailService : IEmailService
             return log;
         }
 
-        _imapClient.Connect(_settings.HostName, _settings.ImapPort, true);
-        _imapClient.Authenticate(_settings.Username, _settings.Password);
+        await _imapClient.ConnectAsync(_settings.HostName, _settings.ImapPort, true);
+        await _imapClient.AuthenticateAsync(_settings.Username, _settings.Password);
 
         var bounceFolder = GetBounceFolder();
         await bounceFolder.OpenAsync(FolderAccess.ReadWrite);
 
         var MAX_EMAILS_TO_PROCESS = 50;
-        var items = bounceFolder.Fetch(0, MAX_EMAILS_TO_PROCESS, MessageSummaryItems.UniqueId | MessageSummaryItems.Size | MessageSummaryItems.Flags);
+        var items = await bounceFolder.FetchAsync(0, MAX_EMAILS_TO_PROCESS, MessageSummaryItems.UniqueId | MessageSummaryItems.Size | MessageSummaryItems.Flags);
 
         foreach (var item in items)
         {
-            var message = bounceFolder.GetMessage(item.UniqueId);
+            var message = await bounceFolder.GetMessageAsync(item.UniqueId);
             var bounce = new MailBounce(message.Subject, message.TextBody);
-            bounceFolder.AddFlags(item.UniqueId, MessageFlags.Deleted, true);
+            await bounceFolder.AddFlagsAsync(item.UniqueId, MessageFlags.Deleted, true);
 
             if (bounce.IsBounce)
             {
@@ -197,9 +197,9 @@ public class EmailService : IEmailService
         _ctx.SaveChanges();
 
         // Remove os emails bounce no server
-        bounceFolder.Expunge();
+        await bounceFolder.ExpungeAsync();
 
-        _imapClient.Disconnect(true);
+        await _imapClient.DisconnectAsync(true);
 
         return log;
     }

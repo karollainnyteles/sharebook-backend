@@ -316,11 +316,11 @@ namespace ShareBook.Service
             var stats = new UserStatsDTO
             {
                 CreationDate = user.CreationDate,
-                TotalLate = books.Where(b => b.ChooseDate < DateTime.Today && b.Status == BookStatus.AwaitingDonorDecision).Count(),
-                TotalOk = books.Where(b => b.Status == BookStatus.WaitingSend || b.Status == BookStatus.Sent || b.Status == BookStatus.Received).Count(),
-                TotalCanceled = books.Where(b => b.Status == BookStatus.Canceled).Count(),
-                TotalWaitingApproval = books.Where(b => b.Status == BookStatus.WaitingApproval).Count(),
-                TotalAvailable = books.Where(b => b.Status == BookStatus.Available).Count(),
+                TotalLate = books.Count(b => b.ChooseDate < DateTime.Today && b.Status == BookStatus.AwaitingDonorDecision),
+                TotalOk = books.Count(b => b.Status == BookStatus.WaitingSend || b.Status == BookStatus.Sent || b.Status == BookStatus.Received),
+                TotalCanceled = books.Count(b => b.Status == BookStatus.Canceled),
+                TotalWaitingApproval = books.Count(b => b.Status == BookStatus.WaitingApproval),
+                TotalAvailable = books.Count(b => b.Status == BookStatus.Available),
             };
             return stats;
         }

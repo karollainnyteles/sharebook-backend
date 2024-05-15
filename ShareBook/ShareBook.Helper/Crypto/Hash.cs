@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ShareBook.Helper.Crypto
 {
-    public class Hash
+    public static class Hash
     {
         public static string Create(string value, string salt)
         {

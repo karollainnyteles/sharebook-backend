@@ -49,7 +49,7 @@ namespace Sharebook.Jobs
                     continue;
                 }
 
-                var totalPedidosValidos = book.BookUsers.Where(b => b.Status == DonationStatus.WaitingAction).Count();
+                var totalPedidosValidos = book.BookUsers.Count(b => b.Status == DonationStatus.WaitingAction);
 
                 if (totalPedidosValidos > 0)
                 {

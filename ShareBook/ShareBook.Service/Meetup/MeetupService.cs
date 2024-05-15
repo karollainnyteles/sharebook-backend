@@ -63,10 +63,10 @@ namespace ShareBook.Service
                 foreach (var participant in meetupParticipants)
                 {
                     participant.Meetup = meetup;
-                    _participantRepository.Insert(participant);
+                    await _participantRepository.InsertAsync(participant);
                 }
                 meetup.IsParticipantListSynced = true;
-                _repository.Update(meetup);
+                await _repository.UpdateAsync(meetup);
 
                 logs.Add($"Adicionei {meetupParticipants.Count} inscritos no meetup '{meetup.Title}'.");
             }
@@ -127,11 +127,11 @@ namespace ShareBook.Service
                             .GetJsonAsync<SymplaDto>();
                 foreach (var symplaEvent in symplaDto.Data)
                 {
-                    if (!_repository.Any(s => s.SymplaEventId == symplaEvent.Id))
+                    if (!await _repository.AnyAsync(s => s.SymplaEventId == symplaEvent.Id))
                     {
                         var coverUrl = await UploadCover(symplaEvent.Image, symplaEvent.Name);
 
-                        _repository.Insert(new Meetup
+                        await _repository.InsertAsync(new Meetup
                         {
                             SymplaEventId = symplaEvent.Id,
                             SymplaEventUrl = symplaEvent.Url,

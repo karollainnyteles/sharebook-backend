@@ -53,7 +53,7 @@ namespace ShareBook.Repository
             if (count > 1)
                 throw new ShareBookException("More than one entity find for the specified filter");
 
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
         public virtual async Task<PagedList<TEntity>> GetAsync<TKey>(
@@ -104,7 +104,7 @@ namespace ShareBook.Repository
         {
             try
             {
-                _context.Add(entity);
+                await _context.AddAsync(entity);
                 await _context.SaveChangesAsync();
 
                 return entity;
