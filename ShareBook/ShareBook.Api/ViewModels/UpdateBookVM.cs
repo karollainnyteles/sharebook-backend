@@ -8,14 +8,13 @@ namespace ShareBook.Api.ViewModels
         public string Title { get; set; }
 
         public string Author { get; set; }
+        public Guid? CategoryId { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public Guid? UserId { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid? UserIdFacilitator { get; set; }
 
-        public Guid UserIdFacilitator { get; set; }
-
-        public bool Approved { get; set; }
+        public bool? Approved { get; set; }
 
         public string ImageName { get; set; }
 
@@ -23,7 +22,8 @@ namespace ShareBook.Api.ViewModels
 
         public string Synopsis { get; set; }
 
-        public FreightOption FreightOption { get; set; }
+        public FreightOption? FreightOption { get; set; }
+
         public string Type { get; set; }
         public string EBookDownloadLink { get; set; }
         public string EBookPdfFile { get; set; }
