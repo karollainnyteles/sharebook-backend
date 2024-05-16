@@ -38,11 +38,10 @@ namespace Sharebook.Jobs
             var DateLimit = GetDateLimitByInterval(Interval);
 
             var hasHistory =
-            _jobHistoryRepo.Get()
-            .Where(x => x.CreationDate > DateLimit &&
-                   x.JobName == JobName &&
-                   x.IsSuccess == true)
-            .ToList().Any();
+                _jobHistoryRepo.Get()
+                    .Any(x => x.CreationDate > DateLimit &&
+                                   x.JobName == JobName &&
+                                   x.IsSuccess == true);
 
             return !hasHistory;
         }

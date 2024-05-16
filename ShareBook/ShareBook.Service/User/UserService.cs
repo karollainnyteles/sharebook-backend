@@ -108,7 +108,7 @@ namespace ShareBook.Service
                 throw new ShareBookException("Usuário já possui email cadastrado.");
 
             // LGPD - CONSENTIMENTO DOS PAIS.
-            if (userDto.Age < 12)
+            if (userDto?.Age < 12)
                 ParentAprovalStartFlow(userDto, user);
 
             user.Email = user.Email.ToLowerInvariant();
@@ -150,7 +150,7 @@ namespace ShareBook.Service
             if (_repository.Any(u => u.Email == user.Email && u.Id != user.Id))
                 result.Messages.Add("Email já existe.");
 
-            if (result.Success)
+            if (result.Success && userAux is not null)
             {
                 userAux.Change(user.Email, user.Name, user.Linkedin, user.Instagram, user.Phone, user.AllowSendingEmail);
                 userAux.ChangeAddress(user.Address);

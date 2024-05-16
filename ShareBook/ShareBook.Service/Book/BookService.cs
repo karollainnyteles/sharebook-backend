@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +15,11 @@ using ShareBook.Service.AwsSqs;
 using ShareBook.Service.AwsSqs.Dto;
 using ShareBook.Service.Generic;
 using ShareBook.Service.Upload;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
 
 namespace ShareBook.Service;
 
@@ -459,7 +459,7 @@ public class BookService : BaseService<Book>, IBookService
         var slug = _repository.Get()
             .Where(x => x.Title.ToUpper().Trim().Equals(entity.Title.ToUpper().Trim())
                         && !x.Id.Equals(entity.Id))
-            .OrderByDescending(x => x.CreationDate)?.FirstOrDefault()?.Slug;
+            .OrderByDescending(x => x.CreationDate).FirstOrDefault()?.Slug;
 
         return string.IsNullOrWhiteSpace(slug) ? entity.Title.GenerateSlug() : slug.AddIncremental();
     }

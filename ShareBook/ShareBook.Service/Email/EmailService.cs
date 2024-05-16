@@ -51,7 +51,7 @@ public class EmailService : IEmailService
     public async Task SendToAdmins(string messageText, string subject)
     {
         var firstAdm = _userRepository.Get().FirstOrDefault(u => u.Profile == Profile.Administrator);
-        await Send(firstAdm.Email, firstAdm.Name, messageText, subject, copyAdmins: true, highPriority: true);
+        await Send(firstAdm?.Email, firstAdm?.Name, messageText, subject, copyAdmins: true, highPriority: true);
     }
 
     public async Task Send(string emailRecipient, string nameRecipient, string messageText, string subject)

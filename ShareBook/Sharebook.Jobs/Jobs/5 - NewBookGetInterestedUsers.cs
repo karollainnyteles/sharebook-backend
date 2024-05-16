@@ -98,7 +98,7 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
         {
             JobName = JobName,
             IsSuccess = true,
-            Details = $"{totalDestinations} usuários encontrados quem podem ter interesse no livro '{newBook?.BookTitle}'."
+            Details = $"{totalDestinations} usuários encontrados quem podem ter interesse no livro '{newBook.BookTitle}'."
         };
     }
 
