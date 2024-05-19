@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +6,16 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using Sharebook.Jobs;
 using ShareBook.Api.Filters;
 using ShareBook.Api.ViewModels;
 using ShareBook.Helper.Extensions;
-using Sharebook.Jobs;
 using ShareBook.Service;
 using ShareBook.Service.Authorization;
 using ShareBook.Service.Server;
+using System;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace ShareBook.Api.Controllers;
 
@@ -37,16 +37,6 @@ public class OperationsController : Controller
         _emailService = emailService;
         _env = env;
         _cache = memoryCache;
-    }
-
-    [HttpGet]
-    [Authorize("Bearer")]
-    [AuthorizationFilter(Permissions.Permission.ApproveBook)] // adm
-    [Route("ForceException")]
-    public IActionResult ForceException()
-    {
-        var teste = 1 / Convert.ToInt32("Teste");
-        return BadRequest();
     }
 
     [HttpGet("Ping")]
