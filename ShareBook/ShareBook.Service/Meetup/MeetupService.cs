@@ -37,7 +37,7 @@ namespace ShareBook.Service
         {
             var logs = new List<string>();
 
-            if (!_settings.IsActive) throw new Exception("O Serviço de busca de meetups está desativado no appSettings.");
+            if (!_settings.IsActive) throw new MeetupDisabledException("O Serviço de busca de meetups está desativado no appSettings.");
 
             var newMeetups = await GetMeetupsFromSympla();
             var newYoutubeVideos = await GetYoutubeVideos();

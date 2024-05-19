@@ -1,5 +1,5 @@
 ﻿using Rollbar;
-using System;
+using ShareBook.Domain.Exceptions;
 
 namespace ShareBook.Api.Services
 {
@@ -17,7 +17,7 @@ namespace ShareBook.Api.Services
             var result = ErrorLevel.TryParse(logLevel, out ErrorLevel logLevelEnum);
 
             if (!result)
-                throw new Exception("Rollbar invalid logLevel: " + logLevel);
+                throw new RollbarInvalidException("Rollbar invalid logLevel: " + logLevel);
 
             RollbarLocator.RollbarInstance.Configure(new RollbarConfig(accessToken: token) { Environment = environment, LogLevel = logLevelEnum, AccessToken = token });
             RollbarLocator.RollbarInstance.Info($"Rollbar is configured properly in {environment} environment.");

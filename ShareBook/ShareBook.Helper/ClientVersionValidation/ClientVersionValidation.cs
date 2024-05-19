@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShareBook.Helper.Exceptions;
+using System;
 using System.Text.RegularExpressions;
 
 namespace ShareBook.Helper
@@ -34,7 +35,7 @@ namespace ShareBook.Helper
 
             MatchCollection matches = rg.Matches(version);
 
-            if (matches.Count != 1) throw new Exception("Formato inválido");
+            if (matches.Count != 1) throw new FormatVersionInvalidException("Formato inválido");
 
             var major = int.Parse(matches[0].Groups[1].Value);
             var minor = int.Parse(matches[0].Groups[2].Value);
