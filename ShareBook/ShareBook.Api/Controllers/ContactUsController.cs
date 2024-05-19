@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShareBook.Api.ViewModels;
 using ShareBook.Domain;
@@ -23,11 +24,16 @@ namespace ShareBook.Api.Controllers
         }
 
         [HttpPost("SendMessage")]
-        public Result<ContactUs> SendMessage([FromBody] ContactUsVM contactUsVM)
+        [ProducesResponseType(typeof(Result<ContactUs>), StatusCodes.Status200OK)]
+        public IActionResult SendMessage([FromBody] ContactUsVM contactUsVM)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var contactUS = _mapper.Map<ContactUs>(contactUsVM);
 
-            return _contactUsService.SendContactUs(contactUS, contactUsVM?.RecaptchaReactive);
+            return Ok(_contactUsService.SendContactUs(contactUS, contactUsVM?.RecaptchaReactive));
         }
     }
 }
