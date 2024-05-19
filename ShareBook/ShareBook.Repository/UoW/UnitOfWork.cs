@@ -1,4 +1,6 @@
-﻿namespace ShareBook.Repository.UoW
+﻿using System;
+
+namespace ShareBook.Repository.UoW
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -12,6 +14,18 @@
 
         public void Rollback() => _context.Database.RollbackTransaction();
 
-        public void Dispose() => _context.Database.CurrentTransaction?.Rollback();
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _context.Database.CurrentTransaction?.Rollback();
+            }
+        }
     }
 }

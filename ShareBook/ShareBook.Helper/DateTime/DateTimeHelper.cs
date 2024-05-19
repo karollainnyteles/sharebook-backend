@@ -12,9 +12,7 @@ namespace ShareBook.Helper
         // hora agora.
         public static TimeSpan GetTimeNowSaoPaulo()
         {
-            var now = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById(SaoPauloTimezoneId));
-            var today = new DateTime(now.Year, now.Month, now.Day);
-            return now - today;
+            return GetDateTimeNowSaoPaulo().TimeOfDay;
         }
 
         // data hora agora.
@@ -23,9 +21,7 @@ namespace ShareBook.Helper
         // data-hora de hoje a meia noite.
         public static DateTime GetTodaySaoPaulo()
         {
-            var nowSP = GetDateTimeNowSaoPaulo();
-            var todaySP = new DateTime(nowSP.Year, nowSP.Month, nowSP.Day, 0, 0, 0);
-            return todaySP;
+            return GetDateTimeNowSaoPaulo().Date;
         }
 
         public static DateTime ConvertDateTimeSaoPaulo(DateTime d) => TimeZoneInfo.ConvertTime(d, TimeZoneInfo.FindSystemTimeZoneById(SaoPauloTimezoneId));

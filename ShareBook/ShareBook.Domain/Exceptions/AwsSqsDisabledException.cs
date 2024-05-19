@@ -10,7 +10,7 @@ public class AwsSqsDisabledException : Exception
     {
     }
 
-    private AwsSqsDisabledException(SerializationInfo info, StreamingContext context)
+    protected AwsSqsDisabledException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }

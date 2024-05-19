@@ -10,7 +10,7 @@ public class MeetupDisabledException : Exception
     {
     }
 
-    private MeetupDisabledException(SerializationInfo info, StreamingContext context)
+    protected MeetupDisabledException(SerializationInfo info, StreamingContext context)
         : base(info, context)
     {
     }

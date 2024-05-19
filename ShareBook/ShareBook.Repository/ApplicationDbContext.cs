@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShareBook.Domain;
-using ShareBook.Repository.Mapping;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,15 +30,6 @@ namespace ShareBook.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            new BookMap(modelBuilder.Entity<Book>());
-            new UserMap(modelBuilder.Entity<User>());
-            new BookUserMap(modelBuilder.Entity<BookUser>());
-            new CategoryMap(modelBuilder.Entity<Category>());
-            new AddressMap(modelBuilder.Entity<Address>());
-            new JobHistoryMap(modelBuilder.Entity<JobHistory>());
-            new LogEntryMap(modelBuilder.Entity<LogEntry>());
-            new MailBounceMap(modelBuilder.Entity<MailBounce>());
 
             //O Contexto procura pelas classes que implementam IEntityTypeConfiguration adicionando o mapeamento de forma automática.
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

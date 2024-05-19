@@ -16,8 +16,6 @@ public class GenericQueue<T> : IAwsSqsQueue<T>
 
     protected string _queueUrl;
 
-    // protected readonly ILogger _logger;
-
     public GenericQueue(IOptions<AwsSqsSettings> awsSqsSettings)
     {
         _awsSqsSettings = awsSqsSettings?.Value;
@@ -37,7 +35,6 @@ public class GenericQueue<T> : IAwsSqsQueue<T>
     {
         if (!_awsSqsSettings.IsActive)
         {
-            // _logger.LogInformation("Serviço aws sqs está desabilitado no appsettings.");
             return;
         }
 

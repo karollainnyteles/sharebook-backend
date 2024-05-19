@@ -13,6 +13,7 @@ using ShareBook.Service.Generic;
 using ShareBook.Service.Upload;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,6 +24,7 @@ namespace ShareBook.Service
         private readonly MeetupSettings _settings;
         private readonly IUploadService _uploadService;
         private readonly IMeetupParticipantRepository _participantRepository;
+        private readonly CultureInfo _culture = new CultureInfo("en-US");
 
         public MeetupService(IOptions<MeetupSettings> settings, IMeetupRepository meetupRepository, IMeetupParticipantRepository meetupParticipantRepository, IUnitOfWork unitOfWork, IValidator<Meetup> validator, IUploadService uploadService) : base(meetupRepository, unitOfWork, validator)
         {
@@ -138,7 +140,7 @@ namespace ShareBook.Service
                             Title = symplaEvent.Name,
                             Cover = coverUrl,
                             Description = symplaEvent.Detail,
-                            StartDate = DateTime.Parse(symplaEvent.StartDate),
+                            StartDate = DateTime.Parse(symplaEvent.StartDate, _culture),
                         });
                         eventsAdded++;
                     }
