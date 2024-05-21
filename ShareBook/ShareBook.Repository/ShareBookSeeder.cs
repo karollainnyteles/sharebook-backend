@@ -11,11 +11,23 @@ namespace ShareBook.Repository
         private readonly ApplicationDbContext _context;
 
         // 123456
-        private const string PASSWORD_HASH = "n71pJuPLLg4EJkRBf+SRDXHD3x5f1sNI+3Fi5bSjdx4=";
+        private const string PasswordHash = "n71pJuPLLg4EJkRBf+SRDXHD3x5f1sNI+3Fi5bSjdx4=";
 
-        private const string PASSWORD_SALT = "Uo5G5EKyKh5GnXy0D57i0w==";
+        private const string PasswordSalt = "Uo5G5EKyKh5GnXy0D57i0w==";
 
         private readonly CultureInfo _culture = new CultureInfo("en-US");
+
+        private const string Street = "Rua teste";
+
+        private const string Neighborhood = "Bairro teste";
+
+        private const string PostalCode = "11111-111";
+
+        private const string City = "São Paulo";
+
+        private const string Country = "Brasil";
+
+        private const string Author = "J. R. R. Tolkien";
 
         public ShareBookSeeder(ApplicationDbContext context)
         {
@@ -36,19 +48,19 @@ namespace ShareBook.Repository
                     Name = "Walter Vinicius Lopes Cardoso",
                     Email = "walter@sharebook.com",
                     Linkedin = "linkedin.com/walter.cardoso",
-                    Password = PASSWORD_HASH,
-                    PasswordSalt = PASSWORD_SALT,
+                    Password = PasswordHash,
+                    PasswordSalt = PasswordSalt,
                     CreationDate = DateTime.Now,
                     Address = new Address()
                     {
-                        Street = "Rua teste",
+                        Street = Street,
                         Number = "1",
                         Complement = "apto 1",
-                        Neighborhood = "Bairro teste",
-                        PostalCode = "11111-111",
-                        City = "São Paulo",
+                        Neighborhood = Neighborhood,
+                        PostalCode = PostalCode,
+                        City = City,
                         State = "SP",
-                        Country = "Brasil"
+                        Country = Country
                     }
                 };
 
@@ -58,19 +70,19 @@ namespace ShareBook.Repository
                     Email = "vagner@sharebook.com",
                     Linkedin = "linkedin.com/vagner",
                     Profile = Profile.Administrator,
-                    Password = PASSWORD_HASH,
-                    PasswordSalt = PASSWORD_SALT,
+                    Password = PasswordHash,
+                    PasswordSalt = PasswordSalt,
                     CreationDate = DateTime.Now,
                     Address = new Address()
                     {
-                        Street = "Rua teste",
+                        Street = Street,
                         Number = "2",
                         Complement = "apto 2",
-                        Neighborhood = "Bairro teste",
-                        PostalCode = "11111-111",
-                        City = "São Paulo",
+                        Neighborhood = Neighborhood,
+                        PostalCode = PostalCode,
+                        City = City,
                         State = "SP",
-                        Country = "Brasil"
+                        Country = Country
                     }
                 };
 
@@ -80,19 +92,19 @@ namespace ShareBook.Repository
                     Email = "raffacabofrio@gmail.com",
                     Linkedin = "linkedin.com/raffacabofrio",
                     Profile = Profile.Administrator,
-                    Password = PASSWORD_HASH,
-                    PasswordSalt = PASSWORD_SALT,
+                    Password = PasswordHash,
+                    PasswordSalt = PasswordSalt,
                     CreationDate = DateTime.Now,
                     Address = new Address()
                     {
-                        Street = "Rua teste",
+                        Street = Street,
                         Number = "2",
                         Complement = "apto 2",
-                        Neighborhood = "Bairro teste",
-                        PostalCode = "11111-111",
-                        City = "São Paulo",
+                        Neighborhood = Neighborhood,
+                        PostalCode = PostalCode,
+                        City = City,
                         State = "SP",
-                        Country = "Brasil"
+                        Country = Country
                     }
                 };
 
@@ -101,19 +113,19 @@ namespace ShareBook.Repository
                     Name = "Rodrigo",
                     Email = "rodrigo@sharebook.com",
                     Linkedin = "linkedin.com/rodrigo",
-                    Password = PASSWORD_HASH,
-                    PasswordSalt = PASSWORD_SALT,
+                    Password = PasswordHash,
+                    PasswordSalt = PasswordSalt,
                     CreationDate = DateTime.Now,
                     Address = new Address()
                     {
-                        Street = "Rua teste",
+                        Street = Street,
                         Number = "3",
                         Complement = "apto 3",
-                        Neighborhood = "Bairro teste",
-                        PostalCode = "11111-111",
-                        City = "São Paulo",
+                        Neighborhood = Neighborhood,
+                        PostalCode = PostalCode,
+                        City = City,
                         State = "SP",
-                        Country = "Brasil"
+                        Country = Country
                     }
                 };
 
@@ -123,19 +135,19 @@ namespace ShareBook.Repository
                     Email = "cussa@sharebook.com",
                     Linkedin = "linkedin.com/cussa",
                     Profile = Profile.Administrator,
-                    Password = PASSWORD_HASH,
-                    PasswordSalt = PASSWORD_SALT,
+                    Password = PasswordHash,
+                    PasswordSalt = PasswordSalt,
                     CreationDate = DateTime.Now,
                     Address = new Address()
                     {
-                        Street = "Rua teste",
+                        Street = Street,
                         Number = "4",
                         Complement = "apto 4",
-                        Neighborhood = "Bairro teste",
-                        PostalCode = "11111-111",
-                        City = "São Paulo",
+                        Neighborhood = Neighborhood,
+                        PostalCode = PostalCode,
+                        City = City,
                         State = "SP",
-                        Country = "Brasil"
+                        Country = Country
                     }
                 };
 
@@ -148,7 +160,6 @@ namespace ShareBook.Repository
                 var geo_his = new Category() { Name = "Geografia e História", CreationDate = DateTime.Now };
                 var art = new Category() { Name = "Artes", CreationDate = DateTime.Now };
                 var med = new Category() { Name = "Medicina", CreationDate = DateTime.Now };
-                var eco = new Category() { Name = "Economia", CreationDate = DateTime.Now };
                 var inf = new Category() { Name = "Informática", CreationDate = DateTime.Now };
 
                 var book1 = new Book()
@@ -183,7 +194,7 @@ namespace ShareBook.Repository
 
                 var book3 = new Book()
                 {
-                    Author = "J. R. R. Tolkien",
+                    Author = Author,
                     Title = "The book of jonah",
                     FreightOption = FreightOption.State,
                     ImageSlug = "the-book-of-jonah.jpg",
@@ -198,7 +209,7 @@ namespace ShareBook.Repository
 
                 var book4 = new Book()
                 {
-                    Author = "J. R. R. Tolkien",
+                    Author = Author,
                     Title = "The Hobbit",
                     FreightOption = FreightOption.State,
                     ImageSlug = "the-hobbit.jpg",
@@ -213,7 +224,7 @@ namespace ShareBook.Repository
 
                 var book5 = new Book()
                 {
-                    Author = "J. R. R. Tolkien",
+                    Author = Author,
                     Title = "The Hobbit The And Back Again",
                     FreightOption = FreightOption.State,
                     ImageSlug = "the-hobbit-there-and-back-again.jpg",
@@ -243,7 +254,7 @@ namespace ShareBook.Repository
 
                 var book7 = new Book()
                 {
-                    Author = "J. R. R. Tolkien",
+                    Author = Author,
                     Title = "Senhor dos Aneis",
                     FreightOption = FreightOption.Country,
                     ImageSlug = "senhor-dos-aneis.jpg",
@@ -376,24 +387,9 @@ namespace ShareBook.Repository
                     UserFacilitator = facilitator
                 };
 
-                var book17 = new Book()
-                {
-                    Author = "Jane Austen",
-                    Title = "Orgulho e Preconceito ",
-                    FreightOption = FreightOption.Country,
-                    ImageSlug = "orgulho-e-preconceito.jpg",
-                    Slug = "orgulho-e-preconceito",
-                    User = donor,
-                    Status = BookStatus.Available,
-                    Category = adv,
-                    CreationDate = DateTime.Now.AddDays(-3),
-                    ChooseDate = DateTime.Now.AddDays(5),
-                    UserFacilitator = facilitator
-                };
-
                 var book18 = new Book()
                 {
-                    Author = "J. R. R. Tolkien",
+                    Author = Author,
                     Title = "O Retorno do Rei",
                     FreightOption = FreightOption.WithoutFreight,
                     ImageSlug = "o-retorno-do-rei.png",

@@ -27,7 +27,7 @@ namespace ShareBook.Service.Lgpd
             _ctx = context;
         }
 
-        public void Anonymize(UserAnonymizeDTO dto)
+        public void Anonymize(UserAnonymizeDto dto)
         {
             var user = _ctx.Users
                 .Where(u => u.Id == dto.UserId)
@@ -91,7 +91,7 @@ namespace ShareBook.Service.Lgpd
 
         private void CancelDonation(Book book)
         {
-            var cancelationDTO = new BookCancelationDTO
+            var cancelationDTO = new BookCancelationDto
             {
                 Book = book,
                 CanceledBy = "USUÁRIO ANONIMIZADO",

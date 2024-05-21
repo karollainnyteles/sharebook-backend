@@ -32,11 +32,6 @@ namespace ShareBook.Repository
         Task DeleteAsync(TEntity entity);
 
         /// <summary>
-        /// Get the DbSet as a IQueryable
-        /// </summary>
-        IQueryable<TEntity> Get();
-
-        /// <summary>
         /// Execute a Find on the DbSet using the <paramref name="keyValues"/>.
         /// <para>Using this method will return onlye the Entity, without the children.</para>
         /// <para>
@@ -69,6 +64,11 @@ namespace ShareBook.Repository
         /// In case that more than 1 entity could be returned for the filter specified.
         /// </exception>
         TEntity Find(IncludeList<TEntity> includes, Expression<Func<TEntity, bool>> filter);
+
+        /// <summary>
+        /// Get the DbSet as a IQueryable
+        /// </summary>
+        IQueryable<TEntity> Get();
 
         /// <summary>
         /// Get ALL the entities, without filter, on the specified order, without child objects.

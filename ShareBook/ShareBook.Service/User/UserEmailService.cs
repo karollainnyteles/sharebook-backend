@@ -32,7 +32,7 @@ namespace ShareBook.Service
             await _emailService.Send(user.Email, user.Name, html, title);
         }
 
-        public void SendEmailRequestParentAproval(RegisterUserDTO userDto, User user)
+        public void SendEmailRequestParentAproval(RegisterUserDto userDto, User user)
         {
             var vm = new
             {
@@ -57,7 +57,7 @@ namespace ShareBook.Service
             _emailService.Send(user.Email, user.Name, html, title).Wait();
         }
 
-        public void SendEmailAnonymizeNotifyAdms(UserAnonymizeDTO dto)
+        public void SendEmailAnonymizeNotifyAdms(UserAnonymizeDto dto)
         {
             var html = _emailTemplate.GenerateHtmlFromTemplateAsync("AnonymizeNotifyAdms", dto).Result;
             var title = "Anonimização de conta";

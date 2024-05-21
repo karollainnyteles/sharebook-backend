@@ -74,7 +74,7 @@ namespace ShareBook.Api
 
             services.AddHttpContextAccessor();
 
-            JWTConfig.RegisterJWT(services, Configuration);
+            JwtConfig.RegisterJWT(services, Configuration);
 
             services.RegisterSwagger();
 
@@ -109,7 +109,8 @@ namespace ShareBook.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            bool rollbarActive = Configuration.GetSection("Rollbar:IsActive").Value == null ? false : Convert.ToBoolean(Configuration.GetSection("Rollbar:IsActive").Value.ToLower());
+            var rollbarActive = Convert.ToBoolean(Configuration.GetSection("Rollbar:IsActive").Value);
+
             if (rollbarActive)
             {
                 app.UseRollbarMiddleware();
@@ -160,7 +161,6 @@ namespace ShareBook.Api
 
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var scopeServiceProvider = serviceScope.ServiceProvider;
                 var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
                 context.Database.Migrate();
                 if (env.IsDevelopment() || env.IsStaging())

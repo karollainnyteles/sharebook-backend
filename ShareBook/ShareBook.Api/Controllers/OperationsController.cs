@@ -68,7 +68,7 @@ public class OperationsController : Controller
 
     [HttpPost("EmailTest")]
     [Authorize("Bearer")]
-    [AuthorizationFilter(Permissions.Permission.ApproveBook)] // adm
+    [AuthorizationFilterAttribute(Permissions.Permission.ApproveBook)] // adm
     public IActionResult EmailTest([FromBody] EmailTestVM emailVM)
     {
         if (!ModelState.IsValid)

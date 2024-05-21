@@ -1,6 +1,6 @@
 ﻿namespace ShareBook.Domain.DTOs
 {
-    public class BookStatsDTO
+    public class BookStatsDto
     {
         public int TotalWaitingApproval { get; set; }
         public int TotalLate { get; set; }

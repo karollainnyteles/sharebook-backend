@@ -27,7 +27,7 @@ namespace ShareBook.Service
         /// <param name="bookId"></param>
         Task NotifyInterestedAboutBooksWinner(Guid bookId);
 
-        Result<Book> Cancel(BookCancelationDTO dto);
+        Result<Book> Cancel(BookCancelationDto dto);
 
         void InformTrackingNumber(Guid bookId, string trackingNumber);
 

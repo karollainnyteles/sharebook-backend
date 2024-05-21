@@ -29,9 +29,9 @@ namespace ShareBook.Service
 
         IList<User> GetBySolicitedBookCategory(Guid bookCategoryId);
 
-        UserStatsDTO GetStats(Guid? userId);
+        UserStatsDto GetStats(Guid? userId);
 
-        Result<User> Insert(RegisterUserDTO userDto);
+        Result<User> Insert(RegisterUserDto userDto);
 
         void ParentAproval(string parentHashCodeAproval);
     }

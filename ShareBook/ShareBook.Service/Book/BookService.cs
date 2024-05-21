@@ -31,6 +31,8 @@ public class BookService : BaseService<Book>, IBookService
     private readonly NewBookQueue _newBookQueue;
     private readonly IUploadService _uploadService;
 
+    private const string BooksDirectory = "Books";
+
     public BookService(IBookRepository bookRepository,
         IUnitOfWork unitOfWork, IValidator<Book> validator,
         IUploadService uploadService, IBooksEmailService booksEmailService, IConfiguration configuration,
@@ -171,7 +173,7 @@ public class BookService : BaseService<Book>, IBookService
         if (result == null)
             throw new ShareBookException(ShareBookException.Error.NotFound);
 
-        result.ImageUrl = _uploadService.GetImageUrl(result.ImageSlug, "Books");
+        result.ImageUrl = _uploadService.GetImageUrl(result.ImageSlug, BooksDirectory);
 
         return result;
     }
@@ -194,7 +196,7 @@ public class BookService : BaseService<Book>, IBookService
 
             result.Value = _repository.Insert(entity);
 
-            result.Value.ImageUrl = _uploadService.UploadImage(entity.ImageBytes, entity.ImageSlug, "Books");
+            result.Value.ImageUrl = _uploadService.UploadImage(entity.ImageBytes, entity.ImageSlug, BooksDirectory);
 
             result.Value.ImageBytes = null;
 
@@ -228,7 +230,7 @@ public class BookService : BaseService<Book>, IBookService
         if (!string.IsNullOrEmpty(entity.ImageName) && entity.ImageBytes.Length > 0)
         {
             entity.ImageSlug = ImageHelper.FormatImageName(entity.ImageName, savedBook.Slug);
-            _uploadService.UploadImage(entity.ImageBytes, savedBook.ImageSlug, "Books");
+            _uploadService.UploadImage(entity.ImageBytes, savedBook.ImageSlug, BooksDirectory);
         }
 
         //preparar o book para atualização
@@ -401,7 +403,7 @@ public class BookService : BaseService<Book>, IBookService
     {
         return books.Select(b =>
         {
-            b.ImageUrl = _uploadService.GetImageUrl(b.ImageSlug, "Books");
+            b.ImageUrl = _uploadService.GetImageUrl(b.ImageSlug, BooksDirectory);
             return b;
         }).ToList();
     }
@@ -426,7 +428,7 @@ public class BookService : BaseService<Book>, IBookService
                 Author = u.Author,
                 Status = u.Status,
                 FreightOption = u.FreightOption,
-                ImageUrl = _uploadService.GetImageUrl(u.ImageSlug, "Books"),
+                ImageUrl = _uploadService.GetImageUrl(u.ImageSlug, BooksDirectory),
                 Slug = u.Slug,
                 CreationDate = u.CreationDate,
                 Synopsis = u.Synopsis,
@@ -473,7 +475,7 @@ public class BookService : BaseService<Book>, IBookService
                 "Necessário informar o link ou o arquivo em caso de um E-Book.");
     }
 
-    public BookStatsDTO GetStats()
+    public BookStatsDto GetStats()
     {
         var groupedStatus = _repository.Get()
             .GroupBy(b => b.Status)
@@ -484,9 +486,9 @@ public class BookService : BaseService<Book>, IBookService
             })
             .ToList();
 
-        var status = new BookStatsDTO();
+        var status = new BookStatsDto();
 
-        status.TotalWaitingApproval = groupedStatus.Any(g => g.Status == BookStatus.WaitingApproval)
+        status.TotalWaitingApproval = groupedStatus.Exists(g => g.Status == BookStatus.WaitingApproval)
             ? groupedStatus.Find(g => g.Status == BookStatus.WaitingApproval).Total
             : 0;
 

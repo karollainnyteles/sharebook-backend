@@ -41,7 +41,7 @@ namespace Sharebook.Jobs
                 _jobHistoryRepo.Get()
                     .Any(x => x.CreationDate > DateLimit &&
                                    x.JobName == JobName &&
-                                   x.IsSuccess == true);
+                                   x.IsSuccess);
 
             return !hasHistory;
         }
@@ -122,7 +122,7 @@ namespace Sharebook.Jobs
         {
             _stopwatch.Stop();
 
-            history.TimeSpentSeconds = ((double)_stopwatch.ElapsedMilliseconds / (double)1000); ;
+            history.TimeSpentSeconds = ((double)_stopwatch.ElapsedMilliseconds / (double)1000);
             _jobHistoryRepo.Insert(history);
         }
     }

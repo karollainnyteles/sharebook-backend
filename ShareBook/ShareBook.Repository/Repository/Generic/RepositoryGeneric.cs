@@ -159,8 +159,6 @@ namespace ShareBook.Repository
 
         #region Synchronous
 
-        public IQueryable<TEntity> Get() => _dbSet;
-
         public TEntity Find(object keyValue) => _dbSet.Find(keyValue);
 
         public TEntity Find(IncludeList<TEntity> includes, object keyValue) => FindAsync(includes, keyValue).Result;
@@ -168,6 +166,8 @@ namespace ShareBook.Repository
         public TEntity Find(Expression<Func<TEntity, bool>> filter) => FindAsync(null, filter).Result;
 
         public TEntity Find(IncludeList<TEntity> includes, Expression<Func<TEntity, bool>> filter) => FindAsync(includes, filter).Result;
+
+        public IQueryable<TEntity> Get() => _dbSet;
 
         public PagedList<TEntity> Get<TKey>(Expression<Func<TEntity, TKey>> order)
             => Get(order, null);

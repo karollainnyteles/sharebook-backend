@@ -1,6 +1,6 @@
 ﻿namespace ShareBook.Domain.DTOs
 {
-    public class RegisterUserDTO
+    public class RegisterUserDto
     {
         public string Name { get; set; }
 

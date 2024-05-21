@@ -112,8 +112,6 @@ public class NewBookGetInterestedUsers : GenericJob, IJob
 
         var maxEmailsPerHour = int.Parse(_configuration["EmailSettings:MaxEmailsPerHour"]);
         return (maxEmailsPerHour / mailSenderInvocationsPerHour) / totalSqsMessagensPerWork;
-
-        //
     }
 
     private string GetEmailTemplate(Guid bookId)

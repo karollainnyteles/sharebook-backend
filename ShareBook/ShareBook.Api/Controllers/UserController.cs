@@ -71,7 +71,7 @@ public class UserController : ControllerBase
     [HttpPost("Register")]
     [ProducesResponseType(typeof(object), 200)]
     [ProducesResponseType(409)]
-    public IActionResult Post([FromBody] RegisterUserDTO registerUserDto,
+    public IActionResult Post([FromBody] RegisterUserDto registerUserDto,
         [FromServices] SigningConfigurations signingConfigurations,
         [FromServices] TokenConfigurations tokenConfigurations)
     {

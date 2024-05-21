@@ -46,7 +46,7 @@ public class BookController : ControllerBase
 
     [HttpGet]
     [Authorize("Bearer")]
-    [AuthorizationFilter(Permissions.Permission.DonateBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.DonateBook)]
     public PagedList<BookVMAdm> GetAll()
     {
         return Paged(1, 15);
@@ -54,7 +54,7 @@ public class BookController : ControllerBase
 
     [HttpGet("{page:int}/{items:int}")]
     [Authorize("Bearer")]
-    [AuthorizationFilter(Permissions.Permission.DonateBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.DonateBook)]
     public PagedList<BookVMAdm> Paged(int page, int items)
     {
         // TODO: parar de usar esse get complicado e fazer uma query linq/ef tradicional usando
@@ -74,7 +74,7 @@ public class BookController : ControllerBase
 
     [Authorize("Bearer")]
     [HttpPost("Approve/{id}")]
-    [AuthorizationFilter(Permissions.Permission.ApproveBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.ApproveBook)]
     public Result Approve(string id, [FromBody] ApproveBookVM model)
     {
         _service.Approve(new Guid(id), model?.ChooseDate);
@@ -97,7 +97,7 @@ public class BookController : ControllerBase
     {
         if (!_IsBookOwner(new Guid(id))) return Unauthorized();
 
-        var cancelationDTO = new BookCancelationDTO
+        var cancelationDTO = new BookCancelationDto
         {
             Book = _service.Find(new Guid(id)),
             CanceledBy = GetUser().Name,
@@ -121,7 +121,7 @@ public class BookController : ControllerBase
     [Obsolete("Replaced by RequestersList")]
     [Authorize("Bearer")]
     [HttpGet("GranteeUsersByBookId/{bookId}")]
-    [AuthorizationFilter(Permissions.Permission.DonateBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.DonateBook)]
     public IList<User> GetGranteeUsersByBookId(string bookId)
     {
         return _bookUserService.GetGranteeUsersByBookId(new Guid(bookId));
@@ -149,7 +149,7 @@ public class BookController : ControllerBase
     }
 
     [Authorize("Bearer")]
-    [AuthorizationFilter(Permissions.Permission.ApproveBook)] // apenas adms
+    [AuthorizationFilterAttribute(Permissions.Permission.ApproveBook)] // apenas adms
     [ProducesResponseType(typeof(BookVM), 200)]
     [HttpGet("{id}")]
     public IActionResult GetById(string id)
@@ -196,7 +196,7 @@ public class BookController : ControllerBase
 
     [Authorize("Bearer")]
     [HttpGet("FullSearchAdmin/{criteria}")]
-    [AuthorizationFilter(Permissions.Permission.DonateBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.DonateBook)]
     public PagedList<Book> FullSearchAdmin(string criteria, int page, int items)
     {
         var isAdmin = true;
@@ -266,7 +266,7 @@ public class BookController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize("Bearer")]
-    [AuthorizationFilter(Permissions.Permission.ApproveBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.ApproveBook)]
     public IActionResult Update(Guid Id, [FromBody] UpdateBookVM updateBookVM)
     {
         updateBookVM.Id = Id;
@@ -295,7 +295,7 @@ public class BookController : ControllerBase
 
     [Authorize("Bearer")]
     [HttpDelete("{id}")]
-    [AuthorizationFilter(Permissions.Permission.DonateBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.DonateBook)]
     public Result Delete(Guid id)
     {
         return _service.Delete(id);
@@ -350,7 +350,7 @@ public class BookController : ControllerBase
     [Authorize("Bearer")]
     [ProducesResponseType(typeof(Result), 200)]
     [HttpPost("AddFacilitatorNotes")]
-    [AuthorizationFilter(Permissions.Permission.ApproveBook)]
+    [AuthorizationFilterAttribute(Permissions.Permission.ApproveBook)]
     public IActionResult AddFacilitatorNotes([FromBody] AddFacilitatorNotesVM vm)
     {
         _service.AddFacilitatorNotes(vm.BookId, vm.FacilitatorNotes);

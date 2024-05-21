@@ -48,6 +48,6 @@ namespace ShareBook.Service
 
         void RenewChooseDate(Guid bookId);
 
-        BookStatsDTO GetStats();
+        BookStatsDto GetStats();
     }
 }

@@ -19,7 +19,7 @@ namespace ShareBook.Service
 
         Task SendEmailDonationCanceled(Book book, List<BookUser> bookUsers);
 
-        Task SendEmailBookCanceledToAdminsAndDonor(BookCancelationDTO dto);
+        Task SendEmailBookCanceledToAdminsAndDonor(BookCancelationDto dto);
 
         Task SendEmailTrackingNumberInformed(BookUser bookUserWinner, Book book);
 

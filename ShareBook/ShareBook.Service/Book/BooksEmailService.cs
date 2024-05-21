@@ -86,7 +86,7 @@ namespace ShareBook.Service
                 await SendEmailWaitingApprovalToUser(book);
         }
 
-        private async Task SendEmailNewBookInsertedToAdministrators(Book book, UserStatsDTO userStats)
+        private async Task SendEmailNewBookInsertedToAdministrators(Book book, UserStatsDto userStats)
         {
             var model = new
             {

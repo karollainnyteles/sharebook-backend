@@ -90,7 +90,7 @@ namespace ShareBook.Service
             return result;
         }
 
-        public Result<User> Insert(RegisterUserDTO userDto)
+        public Result<User> Insert(RegisterUserDto userDto)
         {
             User user = _mapper.Map<User>(userDto);
             Result resultRecaptcha = _recaptchaService.SimpleValidationRecaptcha(userDto?.RecaptchaReactive);
@@ -120,7 +120,7 @@ namespace ShareBook.Service
             return result;
         }
 
-        private void ParentAprovalStartFlow(RegisterUserDTO userDto, User user)
+        private void ParentAprovalStartFlow(RegisterUserDto userDto, User user)
         {
             user.ParentAproved = false;
             user.ParentHashCodeAproval = Guid.NewGuid().ToString();
@@ -306,14 +306,14 @@ namespace ShareBook.Service
         public IList<User> GetBySolicitedBookCategory(Guid bookCategoryId) =>
             _userRepository.Get().Where(u => u.AllowSendingEmail && u.BookUsers.Any(bu => bu.Book.CategoryId == bookCategoryId)).ToList();
 
-        public UserStatsDTO GetStats(Guid? userId)
+        public UserStatsDto GetStats(Guid? userId)
         {
             var user = _userRepository.Find(userId);
             var books = _bookRepository.Get().Where(b => b.UserId == userId).ToList();
 
             if (user == null) throw new ShareBookException(ShareBookException.Error.NotFound, "Usuário não encontrado.");
 
-            var stats = new UserStatsDTO
+            var stats = new UserStatsDto
             {
                 CreationDate = user.CreationDate,
                 TotalLate = books.Count(b => b.ChooseDate < DateTime.Today && b.Status == BookStatus.AwaitingDonorDecision),

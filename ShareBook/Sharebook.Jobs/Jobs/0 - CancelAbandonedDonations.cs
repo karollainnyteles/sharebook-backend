@@ -6,6 +6,7 @@ using ShareBook.Repository;
 using ShareBook.Service;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace Sharebook.Jobs
 {
@@ -14,7 +15,6 @@ namespace Sharebook.Jobs
         private readonly IBookService _bookService;
         private readonly IBookUserService _bookUserService;
         private readonly int _maxLateDonationDaysAutoCancel;
-        private readonly IConfiguration _configuration;
 
         public CancelAbandonedDonations(IJobHistoryRepository jobHistoryRepo, IBookService bookService, IBookUserService bookUserService, IConfiguration configuration) : base(jobHistoryRepo)
         {
@@ -27,8 +27,7 @@ namespace Sharebook.Jobs
             _bookService = bookService;
             _bookUserService = bookUserService;
 
-            _configuration = configuration;
-            _maxLateDonationDaysAutoCancel = int.Parse(_configuration["SharebookSettings:MaxLateDonationDaysAutoCancel"]);
+            _maxLateDonationDaysAutoCancel = int.Parse(configuration["SharebookSettings:MaxLateDonationDaysAutoCancel"]);
         }
 
         public override JobHistory Work()
@@ -38,11 +37,13 @@ namespace Sharebook.Jobs
             var refDate = DateTime.Today.AddDays(_maxLateDonationDaysAutoCancel * -1);
             var booksAbandoned = booksLate.Where(b => b.ChooseDate < refDate).ToList();
 
-            var details = $"Encontradas {booksAbandoned.Count} doações abandonadas com mais de {_maxLateDonationDaysAutoCancel} dias de atraso.\n\n";
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.Append($"Encontradas {booksAbandoned.Count} doações abandonadas com mais de {_maxLateDonationDaysAutoCancel} dias de atraso.\n\n");
 
             foreach (var book in booksAbandoned)
             {
-                var dto = new BookCancelationDTO
+                var dto = new BookCancelationDto
                 {
                     Book = book,
                     CanceledBy = "ShareBot",
@@ -50,8 +51,10 @@ namespace Sharebook.Jobs
                 };
 
                 _bookUserService.Cancel(dto);
-                details += $"Doação do livro {book.Title} foi cancelada.\n";
+                stringBuilder.Append($"Doação do livro {book.Title} foi cancelada.\n");
             }
+
+            var details = stringBuilder.ToString();
 
             return new JobHistory()
             {

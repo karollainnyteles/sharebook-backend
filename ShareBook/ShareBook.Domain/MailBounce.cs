@@ -36,7 +36,7 @@ public class MailBounce : BaseEntity
         IsBounce = true;
         ErrorCode = errorCodeMatch.Groups.Count == 2 ? errorCodeMatch.Groups[1].Value : "";
 
-        if (ErrorCode.StartsWith("4"))
+        if (ErrorCode.StartsWith('4'))
         {
             // Soft bounce
             IsSoft = true;

@@ -145,12 +145,10 @@ namespace ShareBook.Service
             _bookUsersEmailService.SendEmailBookDonatedNotifyDonor(bookUserAccepted.Book, bookUserAccepted.User).Wait();
         }
 
-        public Result<Book> Cancel(BookCancelationDTO dto)
+        public Result<Book> Cancel(BookCancelationDto dto)
         {
             if (dto.Book == null)
                 throw new ShareBookException(ShareBookException.Error.NotFound);
-
-            var bookUsers = _bookUserRepository.Get().Where(x => x.BookId == dto.Book.Id).ToList();
 
             dto.Book.ChooseDate = null;
             dto.Book.Status = BookStatus.Canceled;

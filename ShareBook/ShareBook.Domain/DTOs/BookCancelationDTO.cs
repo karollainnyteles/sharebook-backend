@@ -1,6 +1,6 @@
 ﻿namespace ShareBook.Domain.DTOs
 {
-    public class BookCancelationDTO
+    public class BookCancelationDto
     {
         public Book Book { get; set; }
         public string CanceledBy { get; set; }

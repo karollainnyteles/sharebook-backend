@@ -25,7 +25,7 @@ public class UserPrivacyController : ControllerBase
 
     [HttpPost("Anonymize")]
     [Authorize("Bearer")]
-    public IActionResult Anonymize([FromBody] UserAnonymizeDTO dto)
+    public IActionResult Anonymize([FromBody] UserAnonymizeDto dto)
     {
         var userIdFromSession = new Guid(Thread.CurrentPrincipal?.Identity?.Name);
         if (dto.UserId != userIdFromSession)

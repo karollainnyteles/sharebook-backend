@@ -36,18 +36,18 @@ namespace ShareBook.Service.Muambator
             }
             catch (FlurlHttpException ex)
             {
-                var error = await ex.GetResponseJsonAsync<MuambatorDTO>();
+                var error = await ex.GetResponseJsonAsync<MuambatorDto>();
                 throw new ShareBookException(error == null ? ex.Message : error.Message);
             }
 
             return result;
         }
 
-        public async Task<MuambatorDTO> RemovePackageToTrackerAsync(string packageNumber)
+        public async Task<MuambatorDto> RemovePackageToTrackerAsync(string packageNumber)
         {
             var url = $"https://www.muambator.com.br/api/clientes/v1/pacotes/{packageNumber}/?api-token={MuambatorConfigurator.Token}";
 
-            MuambatorDTO result = new MuambatorDTO();
+            MuambatorDto result = new MuambatorDto();
 
             try
             {
@@ -59,7 +59,7 @@ namespace ShareBook.Service.Muambator
             }
             catch (FlurlHttpException ex)
             {
-                var error = await ex.GetResponseJsonAsync<MuambatorDTO>();
+                var error = await ex.GetResponseJsonAsync<MuambatorDto>();
                 throw new ShareBookException(error == null ? ex.Message : error.Message);
             }
 

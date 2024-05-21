@@ -7,6 +7,6 @@ namespace ShareBook.Service.Muambator
     {
         Task<dynamic> AddPackageToTrackerAsync(Book book, User winner, string packageNumber);
 
-        Task<MuambatorDTO> RemovePackageToTrackerAsync(string packageNumber);
+        Task<MuambatorDto> RemovePackageToTrackerAsync(string packageNumber);
     }
 }

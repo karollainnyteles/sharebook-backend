@@ -2,7 +2,7 @@
 
 namespace ShareBook.Service.Muambator
 {
-    public class MuambatorDTO
+    public class MuambatorDto
     {
         public string Status { get; set; }
 

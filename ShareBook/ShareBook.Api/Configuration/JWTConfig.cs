@@ -8,7 +8,7 @@ using System;
 
 namespace ShareBook.Api.Configuration
 {
-    public static class JWTConfig
+    public static class JwtConfig
     {
         public static void RegisterJWT(IServiceCollection services, IConfiguration configuration)
         {

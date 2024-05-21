@@ -7,6 +7,8 @@ namespace ShareBook.Helper.Extensions
 {
     public static class StringExtension
     {
+        private const string CopySuffix = "_copy";
+
         public static string GenerateSlug(this string phrase)
         {
             string str = phrase.RemoveAccent().ToLower();
@@ -44,11 +46,11 @@ namespace ShareBook.Helper.Extensions
 
         public static string AddIncremental(this string text)
         {
-            var number = text.Split("_copy").Length == 2 ? Convert.ToInt32(text.Split("_copy")[1]) + 1 : 1;
+            var number = text.Split(CopySuffix).Length == 2 ? Convert.ToInt32(text.Split("_copy")[1]) + 1 : 1;
 
-            var onlyText = text.Split("_copy").Length == 2 ? text.Split("_copy")[0] : text;
+            var onlyText = text.Split(CopySuffix).Length == 2 ? text.Split("_copy")[0] : text;
 
-            return $"{onlyText}_copy{number}";
+            return $"{onlyText}{CopySuffix}{number}";
         }
     }
 }

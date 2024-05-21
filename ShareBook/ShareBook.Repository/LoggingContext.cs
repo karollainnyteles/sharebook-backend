@@ -53,7 +53,7 @@ namespace ShareBook.Repository
 
                 string jsonDiff = jdp.Diff(original, updated);
 
-                if (string.IsNullOrWhiteSpace(jsonDiff) == false)
+                if (!string.IsNullOrWhiteSpace(jsonDiff))
                 {
                     var EntityDiff = JToken.Parse(jsonDiff).ToString(Formatting.None);
 

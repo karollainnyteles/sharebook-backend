@@ -4,6 +4,6 @@ namespace ShareBook.Service.Lgpd
 {
     public interface ILgpdService
     {
-        public void Anonymize(UserAnonymizeDTO dto);
+        public void Anonymize(UserAnonymizeDto dto);
     }
 }

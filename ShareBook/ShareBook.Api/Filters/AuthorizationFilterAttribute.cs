@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using ShareBook.Domain.Exceptions;
 using ShareBook.Service.Authorization;
+using System;
 using System.Linq;
 using System.Security.Claims;
 
 namespace ShareBook.Api.Filters
 {
-    public class AuthorizationFilter : ActionFilterAttribute
+    public class AuthorizationFilterAttribute : ActionFilterAttribute
     {
         public Permissions.Permission[] NecessaryPermissions { get; set; }
 
-        public AuthorizationFilter(params Permissions.Permission[] permissions)
+        public AuthorizationFilterAttribute(params Permissions.Permission[] permissions)
         {
             NecessaryPermissions = permissions;
         }
@@ -25,7 +26,7 @@ namespace ShareBook.Api.Filters
             var isAdministrator = ((ClaimsIdentity)user.Identity).Claims
                 .Any(x => x.Type == ClaimsIdentity.DefaultRoleClaimType.ToString() && x.Value == Domain.Enums.Profile.Administrator.ToString());
 
-            if (NecessaryPermissions.Any(x => Permissions.AdminPermissions.Contains(x)) && !isAdministrator)
+            if (Array.Exists(NecessaryPermissions, x => Permissions.AdminPermissions.Contains(x)) && !isAdministrator)
                 throw new ShareBookException(ShareBookException.Error.Forbidden);
 
             base.OnActionExecuting(context);

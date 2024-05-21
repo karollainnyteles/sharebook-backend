@@ -177,11 +177,11 @@ public class EmailService : IEmailService
         var MAX_EMAILS_TO_PROCESS = 50;
         var items = await bounceFolder.FetchAsync(0, MAX_EMAILS_TO_PROCESS, MessageSummaryItems.UniqueId | MessageSummaryItems.Size | MessageSummaryItems.Flags);
 
-        foreach (var item in items)
+        foreach (var uniqueId in items.Select(item => item.UniqueId))
         {
-            var message = await bounceFolder.GetMessageAsync(item.UniqueId);
+            var message = await bounceFolder.GetMessageAsync(uniqueId);
             var bounce = new MailBounce(message.Subject, message.TextBody);
-            await bounceFolder.AddFlagsAsync(item.UniqueId, MessageFlags.Deleted, true);
+            await bounceFolder.AddFlagsAsync(uniqueId, MessageFlags.Deleted, true);
 
             if (bounce.IsBounce)
             {
@@ -224,7 +224,7 @@ public class EmailService : IEmailService
         var hardBounces = bounces.Where(b => !b.IsSoft).ToList();
         var softBounces = bounces.Where(b => b.IsSoft && b.CreationDate > DateTime.Now.AddDays(-1)).ToList();
 
-        if (hardBounces.Any(b => b.Email == email))
+        if (hardBounces.Exists(b => b.Email == email))
             return true;
 
         if (softBounces.Any(b => b.Email == email))

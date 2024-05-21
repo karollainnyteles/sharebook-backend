@@ -6,6 +6,8 @@ namespace ShareBook.Repository.Mapping
 {
     public class AddressMap
     {
+        private const string Varchar50Type = "varchar(50)";
+
         public AddressMap(EntityTypeBuilder<Address> entityBuilder)
         {
             entityBuilder.Property(t => t.PostalCode)
@@ -13,19 +15,19 @@ namespace ShareBook.Repository.Mapping
                    .HasMaxLength(15);
 
             entityBuilder.Property(t => t.Neighborhood)
-                  .HasColumnType("varchar(50)")
+                  .HasColumnType(Varchar50Type)
                   .HasMaxLength(30);
 
             entityBuilder.Property(t => t.Complement)
-                  .HasColumnType("varchar(50)")
+                  .HasColumnType(Varchar50Type)
                   .HasMaxLength(30);
 
             entityBuilder.Property(t => t.Country)
-                  .HasColumnType("varchar(50)")
+                  .HasColumnType(Varchar50Type)
                   .HasMaxLength(30);
 
             entityBuilder.Property(t => t.City)
-                .HasColumnType("varchar(50)")
+                .HasColumnType(Varchar50Type)
                 .HasMaxLength(30);
 
             entityBuilder.Property(t => t.State)

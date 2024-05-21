@@ -8,10 +8,10 @@ namespace ShareBook.Service
     {
         Task SendEmailForgotMyPasswordToUserAsync(User user);
 
-        void SendEmailRequestParentAproval(RegisterUserDTO userDto, User user);
+        void SendEmailRequestParentAproval(RegisterUserDto userDto, User user);
 
         void SendEmailParentAprovedNotifyUser(User user);
 
-        void SendEmailAnonymizeNotifyAdms(UserAnonymizeDTO dto);
+        void SendEmailAnonymizeNotifyAdms(UserAnonymizeDto dto);
     }
 }

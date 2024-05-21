@@ -17,7 +17,7 @@ namespace ShareBook.Helper.Extensions
 
             if (attributes.Any())
             {
-                displayAttribute = attributes.ElementAt(0);
+                displayAttribute = attributes[0];
             }
 
             // return description

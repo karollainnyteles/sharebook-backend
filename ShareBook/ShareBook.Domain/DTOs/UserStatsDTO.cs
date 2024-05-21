@@ -2,7 +2,7 @@
 
 namespace ShareBook.Domain.DTOs
 {
-    public class UserStatsDTO
+    public class UserStatsDto
     {
         public DateTime? CreationDate { get; set; }
         public int TotalLate { get; set; }

@@ -5,6 +5,7 @@ using ShareBook.Service.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ShareBook.Service
@@ -84,7 +85,6 @@ namespace ShareBook.Service
                 return;
 
             //obter o endereço do interessado
-            var donatedUser = this._userService.Find(bookUser.UserId);
             if (bookRequested.User.AllowSendingEmail)
             {
                 var htmlTable = GenerateInterestedListHtml(bookRequested);
@@ -118,18 +118,21 @@ namespace ShareBook.Service
 
         private string GenerateInterestedListHtml(Book bookRequested)
         {
-            var html = "<table border=1 cellpadding=3 cellspacing=0>";
-            html += "<tr><td bgcolor = '#ffff00'><b> APELIDO </b></td><td bgcolor = '#ffff00'><b> PEDIDO </b></td></tr>";
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("<table border=1 cellpadding=3 cellspacing=0>");
+            stringBuilder.Append("<tr><td bgcolor = '#ffff00'><b> APELIDO </b></td><td bgcolor = '#ffff00'><b> PEDIDO </b></td></tr>");
 
             var requests = bookRequested.BookUsers.Where(r => r.CreationDate >= DateTime.Now.AddMinutes(-180)).OrderByDescending(r => r.CreationDate);
 
             foreach (var request in requests)
             {
-                html += "<tr><td>" + request.NickName + "</td><td><pre>" + request.Reason + "</pre></td></tr>";
+                stringBuilder.Append("<tr><td>" + request.NickName + "</td><td><pre>" + request.Reason + "</pre></td></tr>");
             }
 
-            html += "<tr><td colspan=\"2\"> Para ver a lista completa de interessados, use esse link: <a href=\"https://www.sharebook.com.br/book/donate/" + bookRequested.Slug + "?returnUrl=book%2Fdonations\">" + bookRequested.Title + "</a>.</td></tr>";
-            html += "</table>";
+            stringBuilder.Append("<tr><td colspan=\"2\"> Para ver a lista completa de interessados, use esse link: <a href=\"https://www.sharebook.com.br/book/donate/" + bookRequested.Slug + "?returnUrl=book%2Fdonations\">" + bookRequested.Title + "</a>.</td></tr>");
+            stringBuilder.Append("</table>");
+
+            var html = stringBuilder.ToString();
 
             return html;
         }
@@ -230,7 +233,7 @@ namespace ShareBook.Service
             });
         }
 
-        public async Task SendEmailBookCanceledToAdminsAndDonor(BookCancelationDTO dto)
+        public async Task SendEmailBookCanceledToAdminsAndDonor(BookCancelationDto dto)
         {
             var donor = dto.Book.User;
 
