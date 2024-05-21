@@ -227,9 +227,6 @@ public class EmailService : IEmailService
         if (hardBounces.Exists(b => b.Email == email))
             return true;
 
-        if (softBounces.Any(b => b.Email == email))
-            return true;
-
-        return false;
+        return softBounces.Exists(b => b.Email == email);
     }
 }
