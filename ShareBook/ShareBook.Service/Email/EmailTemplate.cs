@@ -62,7 +62,7 @@ namespace ShareBook.Service
             }
             catch (RegexMatchTimeoutException)
             {
-                throw new Exception("A operação de correspondência de regex excedeu o tempo limite.");
+                Console.WriteLine("A operação de correspondência de regex excedeu o tempo limite.");
             }
 
             return templateString;
