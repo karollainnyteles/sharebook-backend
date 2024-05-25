@@ -47,11 +47,24 @@ namespace ShareBook.Service
         public async Task<string> GenerateHtmlFromTemplateAsync(string template, object model)
         {
             var templateString = await GetTemplateAsync(template);
-            var matches = Regex.Matches(templateString, PropertyRegex);
-            foreach (Match item in matches)
+
+            try
             {
-                templateString = templateString.Replace(item.Value, GetPropValue(model, item.Groups[1].Value));
+                var regexTimeout = TimeSpan.FromSeconds(5);
+
+                var regex = new Regex(PropertyRegex, RegexOptions.None, regexTimeout);
+                var matches = regex.Matches(templateString);
+
+                foreach (Match item in matches)
+                {
+                    templateString = templateString.Replace(item.Value, GetPropValue(model, item.Groups[1].Value));
+                }
             }
+            catch (RegexMatchTimeoutException)
+            {
+                throw new Exception("A operação de correspondência de regex excedeu o tempo limite.");
+            }
+
             return templateString;
         }
     }

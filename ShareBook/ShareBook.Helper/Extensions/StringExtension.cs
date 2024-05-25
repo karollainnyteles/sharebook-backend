@@ -11,14 +11,28 @@ namespace ShareBook.Helper.Extensions
 
         public static string GenerateSlug(this string phrase)
         {
-            string str = phrase.RemoveAccent().ToLower();
-            // invalid chars
-            str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-            // convert multiple spaces into one space
-            str = Regex.Replace(str, @"\s+", " ").Trim();
-            // cut and trim
-            str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
-            str = Regex.Replace(str, @"\s", "-"); // hyphens
+            var str = phrase.RemoveAccent().ToLower();
+            var regexTimeout = TimeSpan.FromSeconds(5);
+
+            try
+            {
+                // invalid chars
+                str = Regex.Replace(str, @"[^a-z0-9\s-]", "", RegexOptions.None, regexTimeout);
+
+                // convert multiple spaces into one space
+                str = Regex.Replace(str, @"\s+", " ", RegexOptions.None, regexTimeout).Trim();
+
+                // Corta e remove espaços
+                str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
+
+                // cut and trim
+                str = Regex.Replace(str, @"\s", "-", RegexOptions.None, regexTimeout);
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                throw new Exception("A operação de correspondência de regex excedeu o tempo limite.");
+            }
+
             return str;
         }
 

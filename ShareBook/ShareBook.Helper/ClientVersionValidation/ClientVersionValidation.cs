@@ -30,18 +30,37 @@ namespace ShareBook.Helper
 
         private static Tuple<int, int, int> VersionDeconstructor(string version)
         {
-            string pattern = @"v([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$";
-            Regex rg = new Regex(pattern);
+            if (string.IsNullOrEmpty(version))
+            {
+                throw new FormatVersionInvalidException("Formato inválido");
+            }
 
-            MatchCollection matches = rg.Matches(version);
+            string pattern = @"^v([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{1,2})$";
+            Regex regex = new Regex(pattern, RegexOptions.None, TimeSpan.FromSeconds(5));
 
-            if (matches.Count != 1) throw new FormatVersionInvalidException("Formato inválido");
+            try
+            {
+                Match match = regex.Match(version);
 
-            var major = int.Parse(matches[0].Groups[1].Value);
-            var minor = int.Parse(matches[0].Groups[2].Value);
-            var patch = int.Parse(matches[0].Groups[3].Value);
+                if (!match.Success)
+                {
+                    throw new FormatVersionInvalidException("Formato inválido");
+                }
 
-            return Tuple.Create(major, minor, patch);
+                var major = int.Parse(match.Groups[1].Value);
+                var minor = int.Parse(match.Groups[2].Value);
+                var patch = int.Parse(match.Groups[3].Value);
+
+                return Tuple.Create(major, minor, patch);
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                throw new FormatVersionInvalidException("A operação de correspondência de regex excedeu o tempo limite.");
+            }
+            catch (FormatException)
+            {
+                throw new FormatVersionInvalidException("Formato inválido");
+            }
         }
     }
 }
