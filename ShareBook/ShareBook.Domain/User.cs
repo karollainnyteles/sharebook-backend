@@ -33,10 +33,18 @@ namespace ShareBook.Domain
 
         public bool PasswordIsStrong()
         {
-            Regex rgx = new Regex(@"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[A-Za-z0-9\d$@$!%_*_?&#.,-_:;]{8,}");
-            if (string.IsNullOrEmpty(Password) || !rgx.IsMatch(Password)) return false;
+            try
+            {
+                var pattern = @"(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9])[A-Za-z0-9\d$@$!%_*_?&#.,-_:;]{8,}";
+                var regex = new Regex(pattern, RegexOptions.Compiled, TimeSpan.FromSeconds(5));
 
-            return true;
+                return regex.IsMatch(Password);
+            }
+            catch (RegexMatchTimeoutException)
+            {
+                Console.WriteLine("A operação de correspondência de regex excedeu o tempo limite.");
+                return false;
+            }
         }
 
         public User Cleanup()
