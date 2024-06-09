@@ -488,9 +488,7 @@ public class BookService : BaseService<Book>, IBookService
 
         var status = new BookStatsDto();
 
-        status.TotalWaitingApproval = groupedStatus.Exists(g => g.Status == BookStatus.WaitingApproval)
-            ? groupedStatus.Find(g => g.Status == BookStatus.WaitingApproval).Total
-            : 0;
+        status.TotalWaitingApproval = groupedStatus.FirstOrDefault(g => g.Status == BookStatus.WaitingApproval)?.Total ?? 0;
 
         status.TotalOk = groupedStatus
             .Where(g => g.Status is BookStatus.WaitingSend or BookStatus.Sent or BookStatus.Received)
