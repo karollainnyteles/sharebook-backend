@@ -55,6 +55,10 @@ jobs:
       - name: dotnet restore
         shell: pwsh
         run: dotnet restore  ./ShareBook/ShareBook.sln
+
+      - name: build
+        shell: pwsh
+        run: net build  ./ShareBook/ShareBook.sln  --no-restore
       # - name: scanner test
       #   shell: pwsh
       #   run: dotnet test ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj  --no-restore /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover
@@ -71,11 +75,11 @@ jobs:
           
       - name: scanner build
         shell: pwsh
-        run: dotnet build  ./ShareBook/ShareBook.sln  --no-restore
+        run: dotnet build ./ShareBook/ShareBook.sln
       
       - name: scanner test
         shell: pwsh
-        run: dotnet test ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj  --no-restore /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover
+        run: dotnet test ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover
         
       - name: scanner end
         shell: pwsh
