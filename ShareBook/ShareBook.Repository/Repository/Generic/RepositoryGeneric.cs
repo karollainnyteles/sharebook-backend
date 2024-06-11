@@ -116,7 +116,7 @@ namespace ShareBook.Repository
             }
         }
 
-        private Exception HandleDbUpdateException(DbUpdateException dbUpdate)
+        private static Exception HandleDbUpdateException(DbUpdateException dbUpdate)
         {
             var builder = new StringBuilder("A DbUpdateException was caught while saving changes.");
             try

@@ -289,14 +289,14 @@ namespace ShareBook.Service
             return user.Password == Hash.Create(decryptedPass, user.PasswordSalt);
         }
 
-        private User GetUserEncryptedPass(User user)
+        private static User GetUserEncryptedPass(User user)
         {
             user.PasswordSalt = Salt.Create();
             user.Password = Hash.Create(user.Password, user.PasswordSalt);
             return user;
         }
 
-        private User UserCleanup(User user)
+        private static User UserCleanup(User user)
         {
             user.Password = string.Empty;
             user.PasswordSalt = string.Empty;

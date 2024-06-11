@@ -11,7 +11,7 @@ namespace ShareBook.Test.Unit.Mocks
         private const string PASSWORD_HASH = "9XurTqQsYQY1rtAGXRfwEWO/ROghN3DFx9lTT75i/0s=";
         private const string PASSWORD_SALT = "1x7XxoaSO5I0QGIdARCh5A==";
 
-        public ClaimsPrincipal GetClaimsUser()
+        public static ClaimsPrincipal GetClaimsUser()
         {
             ClaimsIdentity identity = new ClaimsIdentity(
                     new[] {
@@ -29,7 +29,7 @@ namespace ShareBook.Test.Unit.Mocks
 
         public static User GetDonor()
         {
-            return  new User()
+            return new User()
             {
                 Id = new Guid("5489A967-9320-4350-E6FC-08D5CC8498F3"),
                 Name = "Rodrigo",
@@ -47,7 +47,6 @@ namespace ShareBook.Test.Unit.Mocks
         {
             return new User()
             {
-
                 Id = new Guid("5489A967-9320-4350-FFFF-08D5CC8498F3"),
                 Name = "Walter Vinicius",
                 Password = PASSWORD_HASH,
@@ -71,7 +70,7 @@ namespace ShareBook.Test.Unit.Mocks
             };
         }
 
-        public static  User GetAdmin()
+        public static User GetAdmin()
         {
             return new User()
             {

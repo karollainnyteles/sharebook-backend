@@ -61,7 +61,7 @@ public class LateDonationNotification : GenericJob, IJob
 
     #region métodos privados de apoio
 
-    private List<User> GetDistinctDonators(IList<Book> booksLate)
+    private static List<User> GetDistinctDonators(IList<Book> booksLate)
     {
         return booksLate.Select(b => b.User).Distinct().ToList();
     }
@@ -105,7 +105,7 @@ public class LateDonationNotification : GenericJob, IJob
         _emailService.SendToAdmins(emailBodyHTML, emailSubject);
     }
 
-    private string GetWhatsappLink(string phone)
+    private static string GetWhatsappLink(string phone)
     {
         if (string.IsNullOrEmpty(phone)) return "";
 

@@ -101,7 +101,7 @@ public class PushNotificationService : IPushNotificationService
         }
     }
 
-    private string GetSegments(TypeSegments typeSegments)
+    private static string GetSegments(TypeSegments typeSegments)
     {
         switch (typeSegments)
         {

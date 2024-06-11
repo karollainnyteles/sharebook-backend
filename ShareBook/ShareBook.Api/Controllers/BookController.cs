@@ -446,7 +446,7 @@ public class BookController : ControllerBase
         return _userService.Find(userId);
     }
 
-    private bool _IsAdmin(User user)
+    private static bool _IsAdmin(User user)
     {
         if (user?.Profile == null) return false;
         return user.Profile.Equals(Profile.Administrator);

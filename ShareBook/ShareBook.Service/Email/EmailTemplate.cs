@@ -13,7 +13,7 @@ namespace ShareBook.Service
         private const string PropertyRegex = @"\{(.*?)\}";
         private Dictionary<string, string> Templates { get; set; } = new Dictionary<string, string>();
 
-        private string GetPropValue(object obj, string propName)
+        private static string GetPropValue(object obj, string propName)
         {
             string[] nameParts = propName.Split('.');
             if (nameParts.Length == 1)

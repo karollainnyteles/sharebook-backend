@@ -52,7 +52,7 @@ namespace ShareBook.Test.Unit.Services
         [Fact]
         public void RequestBook()
         {
-            Thread.CurrentPrincipal = new UserMock().GetClaimsUser();
+            Thread.CurrentPrincipal = UserMock.GetClaimsUser();
             var service = new BookUserService(bookUserRepositoryMock.Object,
                 bookServiceMock.Object, bookUsersEmailService.Object, muambatorServiceMock.Object, bookRepositoryMock.Object,
                 unitOfWorkMock.Object, bookUserValidator, configurationMock.Object);

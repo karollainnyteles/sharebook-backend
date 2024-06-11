@@ -46,7 +46,7 @@ namespace Sharebook.Jobs
             return !hasHistory;
         }
 
-        public DateTime GetDateLimitByInterval(Interval i)
+        public static DateTime GetDateLimitByInterval(Interval i)
         {
             var result = DateTime.Now;
 

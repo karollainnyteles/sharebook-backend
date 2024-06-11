@@ -466,7 +466,7 @@ public class BookService : BaseService<Book>, IBookService
         return string.IsNullOrWhiteSpace(slug) ? entity.Title.GenerateSlug() : slug.AddIncremental();
     }
 
-    private void EBookValidate(Book entity)
+    private static void EBookValidate(Book entity)
     {
         if (entity.Type == BookType.Eletronic &&
             string.IsNullOrEmpty(entity.EBookDownloadLink) &&

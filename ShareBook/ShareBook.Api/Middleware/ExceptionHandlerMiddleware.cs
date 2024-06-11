@@ -58,7 +58,7 @@ namespace ShareBook.Api.Middleware
             }
         }
 
-        private string ToJson(Object obj)
+        private static string ToJson(Object obj)
         {
             DefaultContractResolver contractResolver = new DefaultContractResolver
             {
@@ -74,7 +74,7 @@ namespace ShareBook.Api.Middleware
             return json;
         }
 
-        private void SendErrorToRollbar(Exception ex)
+        private static void SendErrorToRollbar(Exception ex)
         {
             object error = new
             {

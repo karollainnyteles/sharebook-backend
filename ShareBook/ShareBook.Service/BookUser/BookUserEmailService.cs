@@ -116,7 +116,7 @@ namespace ShareBook.Service
             }
         }
 
-        private string GenerateInterestedListHtml(Book bookRequested)
+        private static string GenerateInterestedListHtml(Book bookRequested)
         {
             var stringBuilder = new StringBuilder();
             stringBuilder.Append("<table border=1 cellpadding=3 cellspacing=0>");
@@ -179,30 +179,6 @@ namespace ShareBook.Service
                 var html = await _emailTemplate.GenerateHtmlFromTemplateAsync(BookNoticeInterestedTemplate, vm);
                 await _emailService.Send(bookUser.User.Email, bookUser.User.Name, html, BookNoticeInterestedTitle);
             }
-        }
-
-        /// <summary>
-        /// Metodo tem como finalizado fazer tratativas na geração da informação de localidade que será enviado doador
-        /// </summary>
-        /// <param name="donatedUser"></param>
-        /// <returns></returns>
-        private string GenerateDonatedLocation(User donatedUser)
-        {
-            string ND = "N/D";
-            if (donatedUser == null) return ND;
-
-            if (donatedUser.Address == null) return ND;
-
-            var address = donatedUser.Address;
-            string location = string.Empty;
-
-            if (!string.IsNullOrEmpty(address.City))
-                location = address.City.ToUpper();
-
-            if (!string.IsNullOrEmpty(address.State))
-                location += $"/{address.State}";
-
-            return location;
         }
 
         public async Task SendEmailDonationDeclined(Book book, BookUser bookUserWinner, List<BookUser> bookUsersDeclined)

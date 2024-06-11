@@ -67,7 +67,7 @@ namespace ShareBook.Service.Lgpd
             _ctx.SaveChanges();
         }
 
-        private void RemoveOpenRequests(User user)
+        private static void RemoveOpenRequests(User user)
         {
             foreach (var request in user.BookUsers)
             {

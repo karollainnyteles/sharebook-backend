@@ -8,8 +8,6 @@ using ShareBook.Repository;
 using ShareBook.Repository.UoW;
 using ShareBook.Service;
 using ShareBook.Service.AwsSqs;
-using ShareBook.Service.AwsSqs.Dto;
-using ShareBook.Service.Muambator;
 using ShareBook.Service.Upload;
 using ShareBook.Test.Unit.Mocks;
 using System;
@@ -21,15 +19,15 @@ namespace ShareBook.Test.Unit.Services
 {
     public class BookServiceTests
     {
-        readonly Mock<IBookService> bookServiceMock;
-        readonly Mock<IUploadService> uploadServiceMock;
-        readonly Mock<IBookRepository> bookRepositoryMock;
-        readonly Mock<IBooksEmailService> bookEmailService;
-        readonly Mock<IUnitOfWork> unitOfWorkMock;
-        readonly Mock<IBookUserService> bookUserServiceMock;
-        readonly Mock<IConfiguration> configurationMock;
+        private readonly Mock<IBookService> bookServiceMock;
+        private readonly Mock<IUploadService> uploadServiceMock;
+        private readonly Mock<IBookRepository> bookRepositoryMock;
+        private readonly Mock<IBooksEmailService> bookEmailService;
+        private readonly Mock<IUnitOfWork> unitOfWorkMock;
+        private readonly Mock<IBookUserService> bookUserServiceMock;
+        private readonly Mock<IConfiguration> configurationMock;
 
-        readonly Mock<NewBookQueue> sqsMock;
+        private readonly Mock<NewBookQueue> sqsMock;
 
         public BookServiceTests()
         {
@@ -54,8 +52,8 @@ namespace ShareBook.Test.Unit.Services
         [Fact]
         public void AddBook()
         {
-            Thread.CurrentPrincipal = new UserMock().GetClaimsUser();
-            var service = new BookService(bookRepositoryMock.Object, 
+            Thread.CurrentPrincipal = UserMock.GetClaimsUser();
+            var service = new BookService(bookRepositoryMock.Object,
                 unitOfWorkMock.Object, new BookValidator(),
                 uploadServiceMock.Object, bookEmailService.Object, configurationMock.Object, sqsMock.Object);
             Result<Book> result = service.Insert(new Book()
@@ -66,7 +64,6 @@ namespace ShareBook.Test.Unit.Services
                 ImageBytes = Encoding.UTF8.GetBytes("STRINGBASE64"),
                 FreightOption = FreightOption.City,
                 CategoryId = Guid.NewGuid()
-                
             });
             Assert.NotNull(result);
             Assert.True(result.Success);
@@ -75,7 +72,7 @@ namespace ShareBook.Test.Unit.Services
         [Fact]
         public void AddEBookByLink()
         {
-            Thread.CurrentPrincipal = new UserMock().GetClaimsUser();
+            Thread.CurrentPrincipal = UserMock.GetClaimsUser();
             var service = new BookService(bookRepositoryMock.Object,
                 unitOfWorkMock.Object, new BookValidator(),
                 uploadServiceMock.Object, bookEmailService.Object, configurationMock.Object, sqsMock.Object);
@@ -97,7 +94,7 @@ namespace ShareBook.Test.Unit.Services
         [Fact]
         public void AddEBookByPdfFile()
         {
-            Thread.CurrentPrincipal = new UserMock().GetClaimsUser();
+            Thread.CurrentPrincipal = UserMock.GetClaimsUser();
             var service = new BookService(bookRepositoryMock.Object,
                 unitOfWorkMock.Object, new BookValidator(),
                 uploadServiceMock.Object, bookEmailService.Object, configurationMock.Object, sqsMock.Object);
@@ -116,6 +113,5 @@ namespace ShareBook.Test.Unit.Services
             Assert.NotNull(result);
             Assert.True(result.Success);
         }
-
     }
 }

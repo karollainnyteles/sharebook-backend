@@ -16,7 +16,6 @@ namespace ShareBook.Service
         private const string WaitingApprovalTitle = "Aguarde aprovação do livro - Sharebook";
         private const string BookApprovedTemplate = "BookApprovedTemplate";
         private const string BookApprovedTitle = "Livro aprovado - Sharebook";
-        private const string NewBookNotifyTemplate = "NewBookNotifyTemplate";
         private const string BookReceivedTemplate = "BookReceivedTemplate";
 
         private readonly IEmailService _emailService;

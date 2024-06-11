@@ -130,7 +130,7 @@ public class JobExecutor : IJobExecutor
 
     // TODO: criar um service pro rollbar e reaproveitar aqui
     // e no ExceptionHandlerMiddleware.
-    private void SendErrorToRollbar(Exception ex)
+    private static void SendErrorToRollbar(Exception ex)
     {
         object error = new
         {

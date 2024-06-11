@@ -1,10 +1,14 @@
-﻿using Moq;
+﻿using AutoMapper;
+using Moq;
 using ShareBook.Domain;
 using ShareBook.Domain.Common;
 using ShareBook.Domain.Validators;
+using ShareBook.Infra.CrossCutting.Identity.Interfaces;
 using ShareBook.Repository;
 using ShareBook.Repository.Repository;
+using ShareBook.Repository.UoW;
 using ShareBook.Service;
+using ShareBook.Service.Recaptcha;
 using ShareBook.Test.Unit.Mocks;
 using System;
 using System.Collections.Generic;
@@ -12,23 +16,19 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using Xunit;
-using ShareBook.Repository.UoW;
-using ShareBook.Infra.CrossCutting.Identity.Interfaces;
-using AutoMapper;
-using ShareBook.Service.Recaptcha;
 
 namespace ShareBook.Test.Unit.Services
 {
     public class UserServiceTests
     {
-        readonly Mock<IUserService> userServiceMock;
-        readonly Mock<IApplicationSignInManager> signManagerMock;
-        readonly Mock<IUserRepository> userRepositoryMock;
-        readonly Mock<IBookRepository> bookRepositoryMock;
-        readonly Mock<IUnitOfWork> unitOfWorkMock;
-        readonly Mock<IUserEmailService> userEmailServiceMock;
-        readonly Mock<IMapper> mapperMock;
-        readonly Mock<IRecaptchaService> recaptchaServiceMock;
+        private readonly Mock<IUserService> userServiceMock;
+        private readonly Mock<IApplicationSignInManager> signManagerMock;
+        private readonly Mock<IUserRepository> userRepositoryMock;
+        private readonly Mock<IBookRepository> bookRepositoryMock;
+        private readonly Mock<IUnitOfWork> unitOfWorkMock;
+        private readonly Mock<IUserEmailService> userEmailServiceMock;
+        private readonly Mock<IMapper> mapperMock;
+        private readonly Mock<IRecaptchaService> recaptchaServiceMock;
 
         public UserServiceTests()
         {
@@ -43,7 +43,7 @@ namespace ShareBook.Test.Unit.Services
             recaptchaServiceMock = new Mock<IRecaptchaService>();
 
             //Simula login do usuario
-            Thread.CurrentPrincipal = new UserMock().GetClaimsUser();
+            Thread.CurrentPrincipal = UserMock.GetClaimsUser();
 
             userRepositoryMock.Setup(repo => repo.Insert(It.IsAny<User>())).Returns(() =>
             {
@@ -78,6 +78,7 @@ namespace ShareBook.Test.Unit.Services
         }
 
         #region Register User
+
         [Fact]
         public void RegisterValidUser()
         {
@@ -90,7 +91,6 @@ namespace ShareBook.Test.Unit.Services
                 Name = "José da Silva",
                 Linkedin = @"linkedin.com\jose-silva",
                 Phone = "55601719"
-
             });
             Assert.NotNull(result);
             Assert.True(result.Success);
@@ -109,7 +109,8 @@ namespace ShareBook.Test.Unit.Services
             Assert.NotNull(result);
             Assert.False(result.Success);
         }
-        #endregion
+
+        #endregion Register User
 
         #region Update User
 
@@ -173,9 +174,10 @@ namespace ShareBook.Test.Unit.Services
             Assert.False(result.Success);
         }
 
-        #endregion
+        #endregion Update User
 
         #region Login User
+
         [Fact]
         public void LoginValidUser()
         {
@@ -217,6 +219,7 @@ namespace ShareBook.Test.Unit.Services
             Assert.Equal("Email ou senha incorretos", result.Messages[0]);
             Assert.False(result.Success);
         }
-        #endregion
+
+        #endregion Login User
     }
 }
