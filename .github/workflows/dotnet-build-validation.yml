@@ -58,6 +58,6 @@ jobs:
         shell: pwsh
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"karollainnyteles_sharebook-backend" /o:"karollainnyteles" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build  ./ShareBook/ShareBook.sln --configuration Release
           dotnet test  ./ShareBook/ShareBook.sln /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover --no-build --verbosity normal
+          dotnet build  ./ShareBook/ShareBook.sln --configuration Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
