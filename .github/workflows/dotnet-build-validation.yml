@@ -59,4 +59,5 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"karollainnyteles_sharebook-backend" /o:"karollainnyteles" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build  ./ShareBook/ShareBook.sln --configuration Release
+          dotnet test  ./ShareBook/ShareBook.sln --no-build --verbosity normal
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
