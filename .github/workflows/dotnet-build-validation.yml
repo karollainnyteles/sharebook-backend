@@ -51,17 +51,32 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Test
-        run: dotnet test  ./ShareBook/ShareBook.sln --no-build --verbosity normal
-      - name: scanner test
+      
+      - name: dotnet restore
         shell: pwsh
-        run: dotnet test  ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover
-      - name: Build and analyze
+        run: dotnet restore  ./ShareBook/ShareBook.sln
+      # - name: scanner test
+      #   shell: pwsh
+      #   run: dotnet test ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj  --no-restore /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover
+      - name: build test
+        shell: pwsh
+        run: dotnet test ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj  --no-restore
+      
+      - name: scanner begin
         env:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: pwsh
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"karollainnyteles_sharebook-backend" /o:"karollainnyteles" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
-          dotnet build  ./ShareBook/ShareBook.sln --configuration Release
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: .\.sonar\scanner\dotnet-sonarscanner begin /k:"karollainnyteles_sharebook-backend" /o:"karollainnyteles" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+          
+      - name: scanner build
+        shell: pwsh
+        run: dotnet build  ./ShareBook/ShareBook.sln  --no-restore
+      
+      - name: scanner test
+        shell: pwsh
+        run: dotnet test ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj  --no-restore /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover
+        
+      - name: scanner end
+        shell: pwsh
+        run: .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
