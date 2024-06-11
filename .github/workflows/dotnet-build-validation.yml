@@ -5,6 +5,7 @@ on:
     branches: [ develop, release-* ]
   pull_request:
     branches: [ develop ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -56,6 +57,7 @@ jobs:
         shell: pwsh
         run: dotnet restore  ./ShareBook/ShareBook.sln
 
+      
       - name: scanner begin
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
