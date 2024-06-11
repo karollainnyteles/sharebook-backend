@@ -51,8 +51,11 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Test
+        run: dotnet test  ./ShareBook/ShareBook.sln --no-build --verbosity normal
       - name: scanner test
-        run: dotnet test  ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover --no-build --verbosity normal
+        shell: pwsh
+        run: dotnet test  ./ShareBook/ShareBook.Test.Unit/ShareBook.Test.Unit.csproj /p:CollectCoverage=true /p:IncludeTestAssembly=true /p:CoverletOutputFormat=opencover
       - name: Build and analyze
         env:
           #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
